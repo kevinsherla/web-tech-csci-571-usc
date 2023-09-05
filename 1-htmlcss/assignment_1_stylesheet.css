@@ -78,7 +78,6 @@ li {
   left: 48px;
   top: 20px;
   background-color: white;
-  /* outline: 2px solid red; */
 }
 #alignment {
   text-align: center;
@@ -90,14 +89,10 @@ table {
   width: 980px;
   padding-top: 25px;
   padding-bottom: 25px;
-  /* outline: 3px solid red; */
 }
 tr {
   padding-top: 0px;
 }
-/* td {
-  outline: 2px solid red;
-} */
 #tleft-img {
   padding-right: 15px;
   padding-bottom: 18px;

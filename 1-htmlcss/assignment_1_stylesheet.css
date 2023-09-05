@@ -1,8 +1,9 @@
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@200;300;400&display=swap");
 body {
   margin: 0;
   padding: 0;
   font-family: "DM Serif Display", serif;
-  width: 1100px;
+  width: 1110px;
 }
 #logo {
   margin-left: 65px;
@@ -22,7 +23,10 @@ ul {
   padding: 5px 0px 10px 0px;
   list-style-type: none;
   font-size: 15px;
-  font-family: sans-serif;
+  font-weight: bold;
+  letter-spacing: -0.75px;
+  word-spacing: -3px;
+  font-family: "Roboto Mono", monospace;
 }
 li {
   display: inline-block;
@@ -34,27 +38,30 @@ li {
 }
 .cutlery {
   width: 980px;
-  height: 600px;
+  height: 550px;
   margin-left: 65px;
   background-image: url("imgs/Cutlery.png");
   background-attachment: fixed;
   background-repeat: no-repeat;
-  background-position: 0px 0px;
+  background-position: 65px -50px;
+  background-size: 980px;
   /* outline: 2px solid red; */
 }
 .cutlery h1 {
-  font-size: 50px;
+  font-size: 55px;
   color: blue;
+  filter: brightness(85%);
   position: relative;
-  top: 67px;
+  top: 50px;
   left: 48px;
   letter-spacing: 2px;
 }
 .cutlery h2 {
-  font-size: 50px;
+  font-size: 55px;
   color: blue;
+  filter: brightness(85%);
   position: relative;
-  top: 34px;
+  top: 0px;
   left: 48px;
   letter-spacing: 2px;
 }
@@ -62,11 +69,14 @@ li {
   position: relative;
   color: black;
   font-size: 18px;
+  font-family: "Roboto Mono", monospace;
   font-weight: 500;
-  padding: 16px 20px;
+  letter-spacing: -0.75px;
+  word-spacing: -4px;
+  padding: 10px 20px 14px 20px;
   display: inline;
   left: 48px;
-  top: 74px;
+  top: 20px;
   background-color: white;
   /* outline: 2px solid red; */
 }

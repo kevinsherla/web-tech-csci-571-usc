@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="main.css" />
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+    <title>Assignment 2</title>
+  </head>
+  <body>
+    <div class="center">
+      <div class="same-line">
+        <a class="same-line" href="https://www.ebay.com/">
+          <img src="eBayLogo.png" alt="" />
+        </a>
+        <h1 id="shopping" class="same-line">Shopping</h1>
+      </div>
+
+      <div class="contents">
+        <form id="search">
+          <label class="bold" for="keyword"
+            >Keywords<span id="red">*</span>:</label
+          >
+          <input type="text" id="keyword" name="keywords" required />
+
+          <hr />
+
+          <label class="bold" for="price">Price Range: </label>
+          <label for="from">From</label>
+          <input type="number" id="from" name="from" />
+          <label for="to">to</label>
+          <input type="number" id="to" name="to" />
+
+          <hr />
+
+          <label class="bold">Condition: </label>
+          <input type="checkbox" id="new" name="new" />
+          <label for="new">New</label>
+          <input type="checkbox" id="used" name="used" />
+          <label for="used">Used</label>
+          <input type="checkbox" id="very_good" name="very_good" />
+          <label for="very_good">Very Good</label>
+          <input type="checkbox" id="good" name="good" />
+          <label for="good">Good</label>
+          <input type="checkbox" id="acceptable" name="acceptable" />
+          <label for="acceptable">Acceptable</label>
+
+          <hr />
+
+          <label class="bold">Seller: </label>
+          <input type="checkbox" id="seller" name="seller" />
+          <label for="seller">Return Accepted</label>
+
+          <hr />
+
+          <label class="bold">Shipping: </label>
+          <input type="checkbox" id="free" name="free" />
+          <label for="free">Free</label>
+          <input type="checkbox" id="expedited" name="expedited" />
+          <label for="expedited">Expedited</label>
+
+          <hr />
+
+          <label class="bold" for="sort_by">Sort By:</label>
+          <select name="sort_by" id="sort_by">
+            <option value="BestMatch">Best Match</option>
+            <option value="CurrentPriceHighest">Price: highest first</option>
+            <option value="PricePlusShippingHighest">
+              Price + Shipping: highest first
+            </option>
+            <option value="PricePlusShippingLowest">
+              Price + Shipping: lowest first
+            </option>
+          </select>
+
+          <hr />
+
+          <button type="button" id="clear_button">Clear</button>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <div id="above_results">
+        <h1>62342 Results for laptop</h1>
+        <hr id="hr-results" />
+      </div>
+      <div id="results">
+        <div class="ind_result">
+            <div class="item-image-dim"><img id="item-image"
+                src="https://i.ebayimg.com/thumbs/images/g/iO4AAOSwbG5ica0T/s-l140.jpg"
+                alt="Iphone SE Case Clear Rubber Protective Cover"
+              /></div>
+          <div>
+            <br>
+            <h3>Iphone SE Case Clear Rubber Protective Cover</h2>
+            <br />
+            <p>Category: Cases, Covers &amp; Skins <a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="redirect.png" alt="sfd"></a></p>
+            <br />
+            <p>Condition: Used</p>
+            <br />
+            <p><b>Price: $1</b></p>
+          </div>
+        </div>
+        <div class="ind_result">
+    <img id="item-image"
+        src="https://i.ebayimg.com/thumbs/images/g/QsMAAOSw~Tdc0T5q/s-l140.jpg"
+        alt="LCD Polarizer Film Polarization film Polarized Light Fi。YN"
+    />
+    <div>
+        <br />
+        <h2>LCD Polarizer Film Polarization film Polarize</h2>
+        <br />
+        <p><strong>Category:</strong> Cell Phone &amp; Smartphone Parts <a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="redirect.png" alt="sfd"></a></p>
+        <br />
+        <p><strong>Condition:</strong> New</p>
+        <br />
+        <p><strong>Price:</strong> $1.35</p>
+    </div>
+</div>
+
+<div class="ind_result">
+    <div class="item-image-dim">
+        <img id="item-image"
+        src="https://i.ebayimg.com/thumbs/images/g/s2UAAOSwE8xhzm3i/s-l140.jpg"
+        alt="iPhone Panini Blitz App Digital Card Elements Rookie  - MAC JONES Please Read"
+    />
+    </div>
+    
+    <div>
+        <br />
+        <h2>
+            iPhone Panini Blitz App Digital Card Elem
+        </h2>
+        <br />
+        <p><strong>Category:</strong> Trading Card Singles <a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="redirect.png" alt="sfd"></a></p>
+        <br />
+        <p><strong>Condition:</strong> Used</p>
+        <br />
+        <p><strong>Price:</strong> $1</p>
+    </div>
+</div>
+
+<div class="ind_result">
+    <div class="item-image-dim">
+        <div class="image-container">
+            <img id="item-image" src="https://i.ebayimg.com/thumbs/images/g/WMYAAOSwrrxlAg5C/s-l140.jpg" alt="item-image">
+        </div>
+    </div>
+    <div>
+        <br>
+        <h3>Apple iPhone SE 2nd Gen. 64GB (T-Mobile) A2275 (CD</h3>
+        <br>
+        <p>Category: Cell Phones &amp; Smartphones<a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="https://www.csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
+        <br>
+        <p>Condition: Used</p>
+        <br>
+        <p><b>Price: $94</b></p>
+    </div>
+</div>
+
+        <div class="ind_result">
+          <h2>Iphone SE Case Clear Rubber Protective Cover</h2>
+          <p><strong>Category:</strong> Cases, Covers &amp; Skins</p>
+          <p><strong>Condition:</strong> Used</p>
+          <p><strong>Price:</strong> $1</p>
+          <img id="item-image"
+            src="https://i.ebayimg.com/thumbs/images/g/iO4AAOSwbG5ica0T/s-l140.jpg"
+            alt="Iphone SE Case Clear Rubber Protective Cover"
+            style="max-width: 200px"
+          />
+        </div>
+
+        <div class="ind_result">
+          <h2>LCD Polarizer Film Polarization film Polarized Light Fi。YN</h2>
+          <p><strong>Category:</strong> Cell Phone &amp; Smartphone Parts</p>
+          <p><strong>Condition:</strong> New</p>
+          <p><strong>Price:</strong> $1.35</p>
+          <img
+            src="https://i.ebayimg.com/thumbs/images/g/QsMAAOSw~Tdc0T5q/s-l140.jpg"
+            alt="LCD Polarizer Film Polarization film Polarized Light Fi。YN"
+            style="max-width: 200px"
+          />
+        </div>
+
+        <div class="ind_result">
+          <h2>
+            iPhone Panini Blitz App Digital Card Elements Rookie - MAC JONES
+            Please Read
+          </h2>
+          <p><strong>Category:</strong> Trading Card Singles</p>
+          <p><strong>Condition:</strong> Used</p>
+          <p><strong>Price:</strong> $1</p>
+          <img
+            src="https://i.ebayimg.com/thumbs/images/g/s2UAAOSwE8xhzm3i/s-l140.jpg"
+            alt="iPhone Panini Blitz App Digital Card Elements Rookie  - MAC JONES Please Read"
+            style="max-width: 200px"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

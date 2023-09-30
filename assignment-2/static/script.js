@@ -86,7 +86,10 @@ document.addEventListener("DOMContentLoaded", function () {
       const topRatedImage = isTopRated
         ? '<img style="height: 30px; width: 20px;position: absolute; top: -7px;left:5px;" src="https://www.csci571.com/hw/hw6/images/topRatedImage.png" alt="Top Rated">'
         : "";
-
+      const slicedTitle =
+        item_info["Title"].length > 50
+          ? item_info["Title"].slice(0, 50) + "..."
+          : item_info["Title"];
       const itemHtml = `
         <div class="ind_result">
           <div class="item-image-dim">
@@ -98,7 +101,7 @@ document.addEventListener("DOMContentLoaded", function () {
           </div>
           <div>
             <br>
-            <h3>${item_info["Title"].slice(0, 50)}</h3>
+            <h3>${slicedTitle}</h3>
             <br />
             <p>Category: ${
               item_info["Category"]

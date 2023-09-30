@@ -96,6 +96,10 @@ def api_search():
         # print(data)
         total_entries = data["findItemsAdvancedResponse"][0]["paginationOutput"][0]["totalEntries"][0]
         # print(total_entries)
+        if total_entries == "0":
+            return {
+                'total_entries': "0",
+            }
 
         items_info = []
         for item in data['findItemsAdvancedResponse'][0]['searchResult'][0]['item'][:10]:

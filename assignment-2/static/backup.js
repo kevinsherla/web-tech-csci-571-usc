@@ -81,40 +81,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     resultsContainer.innerHTML = "";
     items_info.forEach((item_info, index) => {
-      const isTopRated = item_info["Top_Rated"] == "true";
-      console.log(isTopRated);
-      const topRatedImage = isTopRated
-        ? '<img style="height: 30px; width: 20px;position: absolute; top: -7px;left:5px;" src="https://www.csci571.com/hw/hw6/images/topRatedImage.png" alt="Top Rated">'
-        : "";
-
       const itemHtml = `
-        <div class="ind_result">
-          <div class="item-image-dim">
-            <div class="image-container">
-              <img id="item-image" src="${
-                item_info["Image URL"]
-              }" alt="item-image">
-            </div>
-          </div>
-          <div>
-            <br>
-            <h3>${item_info["Title"].slice(0, 50)}</h3>
-            <br />
-            <p>Category: ${
-              item_info["Category"]
-            }<a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="https://www.csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
-            <br />
-            <div style="display:flex;"><p>Condition: ${
-              item_info["Condition"]
-            } <div style="position:relative;"> ${
-        isTopRated ? topRatedImage : ""
-      } </div></p></div>
-            <br />
-            <p><b>Price: $${item_info["Price"]}</b></p>
-          </div>
-        </div>
-      `;
-
+                <div class="ind_result">
+                  <div class="item-image-dim">
+                    <div class="image-container">
+                      <img id="item-image" src="${
+                        item_info["Image URL"]
+                      }" alt="item-image">
+                    </div>
+                  </div>
+                  <div>
+                    <br>
+                    <h3>${item_info["Title"].slice(0, 50)}</h3>
+                    <br />
+                    <p>Category: ${
+                      item_info["Category"]
+                    }<a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="https://www.csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
+                    <br />
+                    <p>Condition: ${item_info["Condition"]}</p>
+                    <br />
+                    <p><b>Price: $${item_info["Price"]}</b></p>
+                  </div>
+                </div>
+              `;
       resultsContainer.innerHTML += itemHtml;
     });
 

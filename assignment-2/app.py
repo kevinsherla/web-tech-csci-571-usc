@@ -12,8 +12,8 @@ def index():
 @app.route('/api/search', methods=['GET'])
 def api_search():
     arg_count = 0
-    keywords = request.args.get('keywords')
-    keywords = keywords.replace(" ", "%20")
+    keywords_org = request.args.get('keywords')
+    keywords = keywords_org.replace(" ", "%20")
     from_price = request.args.get('from') or '0'
     to_price = request.args.get('to', '')
     new = "new" in request.args
@@ -95,18 +95,20 @@ def api_search():
         data = response.json()
         # print(data)
         total_entries = data["findItemsAdvancedResponse"][0]["paginationOutput"][0]["totalEntries"][0]
-        print(total_entries)
+        # print(total_entries)
 
         items_info = []
         for item in data['findItemsAdvancedResponse'][0]['searchResult'][0]['item'][:10]:
             title = item['title'][0]
             category = item['primaryCategory'][0]['categoryName'][0]
-            condition = item['condition'][0]['conditionDisplayName'][0]
+            try:
+                condition = item['condition'][0]['conditionDisplayName'][0]
+            except:
+                condition = "Condition Unknown"
             price = float(item['sellingStatus'][0]
                           ['currentPrice'][0]['__value__'])
             image_url = item['galleryURL'][0]
             top_rated = item['topRatedListing'][0]
-
             item_info = {
                 'Title': title,
                 'Category': category,
@@ -115,7 +117,7 @@ def api_search():
                 'Image URL': image_url,
                 'Top_Rated': top_rated,
             }
-
+            # print(item_info['Top_Rated'])
             items_info.append(item_info)
 
         # for i, item_info in enumerate(items_info, start=1):
@@ -126,7 +128,7 @@ def api_search():
 
         result_data = {
             'total_entries': total_entries,
-            'keywords': keywords,
+            'keywords': keywords_org,
             'items_info': items_info,
         }
         # return items_info

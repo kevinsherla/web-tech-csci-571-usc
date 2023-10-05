@@ -141,3 +141,7 @@ table td {
   width: 175px; /* Set a fixed width for the first column (adjust as needed) */
   white-space: nowrap; /* Prevent wrapping within the first column */
 }
+
+.sort {
+  text-align: center;
+}

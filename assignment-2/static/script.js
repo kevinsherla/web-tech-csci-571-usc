@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const toInput = document.getElementById("to");
 
     const fromValue = parseFloat(fromInput.value) || 0;
-    const toValue = parseFloat(toInput.value) || 0;
+    const toValue = parseFloat(toInput.value);
 
     if (fromValue < 0 || toValue < 0) {
       alert(
@@ -118,9 +118,10 @@ document.addEventListener("DOMContentLoaded", function () {
         ? '<img style="height: 30px; width: 20px;position: absolute; top: -7px;left:5px;" src="https://csci571.com/hw/hw6/images/topRatedImage.png" alt="Top Rated">'
         : "";
       const slicedTitle =
-        item_info["Title"].length > 50
+        item_info["Title"].length > 47
           ? item_info["Title"].slice(0, 50) + "..."
           : item_info["Title"];
+      const price = item_info["Shipping_Service_Cost"] == '0.0' ? item_info["Price"] : `${item_info["Price"]} (+ $${item_info["Shipping_Service_Cost"]} for shipping)` 
       const itemHtml = `
         <div class="ind_result" data-itemid="${item_info["Item_ID"]}">
           <div class="item-image-dim">
@@ -143,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
         isTopRated ? topRatedImage : ""
       } </div></p></div>
             <br />
-            <p><b>Price: $${item_info["Price"]}</b></p>
+            <p><b>Price: $${price}</b></p>
           </div>
         </div>
       `;

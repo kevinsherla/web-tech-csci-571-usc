@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='main.css')}}" />
+    <script src="{{ url_for('static', filename='script.js')}}"></script>
+    <title>Assignment 2</title>
+  </head>
+  <body>
+    <div class="center">
+      <div class="same-line">
+        <a class="same-line" href="https://www.ebay.com/">
+          <img src="{{ url_for('static', filename='ebaylogo.png')}}" alt="" />
+        </a>
+        <h1 id="shopping" class="same-line">Shopping</h1>
+      </div>
+
+      <div class="contents">
+        <form id="search">
+          <label class="bold" for="keyword"
+            >Keywords<span id="red">*</span>:</label
+          >
+          <input type="text" id="keyword" name="keywords" required />
+
+          <hr />
+
+          <label class="bold" for="price">Price Range: </label>
+          <label for="from">From</label>
+          <input type="number" id="from" name="from" />
+          <label for="to">to</label>
+          <input type="number" id="to" name="to" />
+
+          <hr />
+
+          <label class="bold">Condition: </label>
+          <input type="checkbox" id="new" name="new" />
+          <label for="new">New</label>
+          <input type="checkbox" id="used" name="used" />
+          <label for="used">Used</label>
+          <input type="checkbox" id="very_good" name="very_good" />
+          <label for="very_good">Very Good</label>
+          <input type="checkbox" id="good" name="good" />
+          <label for="good">Good</label>
+          <input type="checkbox" id="acceptable" name="acceptable" />
+          <label for="acceptable">Acceptable</label>
+
+          <hr />
+
+          <label class="bold">Seller: </label>
+          <input type="checkbox" id="seller" name="seller" />
+          <label for="seller">Return Accepted</label>
+
+          <hr />
+
+          <label class="bold">Shipping: </label>
+          <input type="checkbox" id="free" name="free" />
+          <label for="free">Free</label>
+          <input type="checkbox" id="expedited" name="expedited" />
+          <label for="expedited">Expedited</label>
+
+          <hr />
+
+          <label class="bold" for="sort_by">Sort By:</label>
+          <select name="sort_by" id="sort_by">
+            <option value="BestMatch">Best Match</option>
+            <option value="CurrentPriceHighest">Price: highest first</option>
+            <option value="PricePlusShippingHighest">
+              Price + Shipping: highest first
+            </option>
+            <option value="PricePlusShippingLowest">
+              Price + Shipping: lowest first
+            </option>
+          </select>
+
+          <hr />
+
+          <button type="button" id="clear_button">Clear</button>
+          <button type="submit">Search</button>
+        </form>
+      </div>
+      <div
+        id="noResultsMessage"
+        style="
+          display: none;
+          margin-top: 40px;
+          font-weight: bold;
+          font-size: 25px;
+        "
+      >
+        No Results Found
+      </div>
+      <div id="totalResults"></div>
+      <div id="results"></div>
+    </div>
+    <div class="center" style="display: none" id="itemDetails">
+      <div id="itemDetailsContainer">
+        <h1>Item Details</h1>
+        <button style="margin-bottom: 20px" id="backBtn">
+          Back to search results
+        </button>
+        <table id="itemDetailsTable"></table>
+      </div>
+    </div>
+  </body>
+</html>

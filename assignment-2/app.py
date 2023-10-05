@@ -146,6 +146,7 @@ def api_search():
             image_url = item['galleryURL'][0]
             top_rated = item['topRatedListing'][0]
             item_id = item['itemId'][0]
+            item_url = item['viewItemURL'][0]
             item_info = {
                 'Title': title,
                 'Category': category,
@@ -154,6 +155,7 @@ def api_search():
                 'Image URL': image_url,
                 'Top_Rated': top_rated,
                 'Item_ID': item_id,
+                'Item URL': item_url,
             }
             # print(item_info['Top_Rated'])
             items_info.append(item_info)

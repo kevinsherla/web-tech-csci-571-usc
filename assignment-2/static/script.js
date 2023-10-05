@@ -31,10 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const clearButton = document.getElementById("clear_button");
   clearButton.addEventListener("click", function () {
-    // Reset the form to its initial state
     form.reset();
-
-    // Additionally, you may want to clear other elements like results
     const resultsContainer = document.getElementById("results");
     const totalResultsContainer = document.getElementById("totalResults");
     const noResultsMessage = document.getElementById("noResultsMessage");
@@ -57,7 +54,7 @@ document.addEventListener("DOMContentLoaded", function () {
   let initialTotalResults = 0;
   let initialKeywords = "";
   let hrElement = null;
-  let cachedData = null; // Variable to store cached data
+  let cachedData = null;
 
   form.addEventListener("submit", function (event) {
     const formData = new FormData(form);
@@ -75,20 +72,18 @@ document.addEventListener("DOMContentLoaded", function () {
           document.getElementById("noResultsMessage").style.display = "none";
           resultsContainer.style.display = "block";
           totalResultsContainer.style.display = "block";
-          cachedData = data; // Cache the data
-          showMore = false; // Reset showMore state
-          initialTotalResults = cachedData.total_entries; // Update total entries
-          initialKeywords = cachedData.keywords; // Update keywords
-          updateResults(); // Update the results using the new data
+          cachedData = data;
+          showMore = false;
+          initialTotalResults = cachedData.total_entries;
+          initialKeywords = cachedData.keywords;
+          updateResults();
         }
       })
       .catch((error) => console.error("Error:", error));
 
-    // Prevent the form from actually submitting, as we are handling the submission via AJAX
     event.preventDefault();
   });
 
-  // Add the following line to reset cachedData to null when a new search is initiated
   form.addEventListener("reset", function () {
     cachedData = null;
   });
@@ -139,9 +134,8 @@ document.addEventListener("DOMContentLoaded", function () {
             <br>
             <h3>${slicedTitle}</h3>
             <br />
-            <p>Category: ${
-              item_info["Category"]
-            }<a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="https://csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
+            <p>Category: ${item_info["Category"]}<a href="${item_info["Item URL"]}" target="_blank">
+            <img style="height: 15px; width: 15px;opacity: 0.5;" src="https://csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
             <br />
             <div style="display:flex;"><p>Condition: ${
               item_info["Condition"]
@@ -191,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function toggleResults() {
     showMore = !showMore;
-    updateResults(); // Update the results using the new data
+    updateResults();
   }
 
   function createButton(text, onClick) {
@@ -209,7 +203,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Assuming #results is the container that holds all .ind_result elements
   const indResults = document.getElementById("results");
 
   indResults.addEventListener("click", function (event) {
@@ -218,24 +211,17 @@ document.addEventListener("DOMContentLoaded", function () {
     if (clickedCard) {
       const itemId = clickedCard.getAttribute("data-itemid");
       console.log(itemId);
-
-      // Make AJAX request to fetch detailed information
       fetch(`/api/getItem?itemId=${itemId}`)
         .then((response) => response.json())
         .then((data) => {
-          // Display detailed item information in the modal
           // console.log(data);
           handleItemDetails(data);
-          // displayItemDetails(data);
         })
         .catch((error) => console.error("Error:", error));
     }
   });
   function handleItemDetails(data) {
-    // Extract item details from the response
     const item = data.Item;
-
-    // Extracted details
     const photoURL = item.PictureURL[0];
     const eBayLink = item.ViewItemURLForNaturalSearch;
     const title = item.Title;
@@ -244,17 +230,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const location = `${item.Location}, ${item.PostalCode}`;
     const seller = item.Seller.UserID;
     const returnPolicy = item.ReturnPolicy.ReturnsAccepted;
-
-    // Extract item specifics
     const itemSpecifics = item.ItemSpecifics.NameValueList.map((spec) => ({
       name: spec.Name,
       values: spec.Value,
     }));
 
-    // Display the details in the modal
     const modal = document.getElementById("itemDetails");
     const table = document.getElementById("itemDetailsTable");
-    table.innerHTML = ""; // Clear previous contents
+    table.innerHTML = "";
     modal.style.display = "block";
 
     const details = [
@@ -264,7 +247,7 @@ document.addEventListener("DOMContentLoaded", function () {
       },
       {
         label: "eBay Link",
-        value: `<a href="${eBayLink}" target="_blank">${eBayLink}</a>`,
+        value: `<a href="${eBayLink}" target="_blank">eBay Product Link</a>`,
       },
       { label: "Title", value: title },
       { label: "SubTitle", value: subTitle },
@@ -291,16 +274,15 @@ document.addEventListener("DOMContentLoaded", function () {
       valueCell.innerHTML = spec.values.join(", ");
     });
 
-    modal.style.display = "block"; // Show the modal
+    modal.style.display = "block";
     toggleVisibility("totalResults", false);
     toggleVisibility("results", false);
   }
 
   document.getElementById("backBtn").addEventListener("click", function () {
-    console.log("Back button clicked"); // Add this line
+    console.log("Back button clicked");
     const modal = document.getElementById("itemDetails");
-    modal.style.display = "none"; // Hide the modal
-    // Toggle visibility of other elements
+    modal.style.display = "none";
     toggleVisibility("totalResults", true);
     toggleVisibility("results", true);
   });

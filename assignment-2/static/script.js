@@ -39,11 +39,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalResultsContainer = document.getElementById("totalResults");
     const noResultsMessage = document.getElementById("noResultsMessage");
     const itemDetails = document.getElementById("itemDetails");
-
+    itemDetails.style.display = "none";
     resultsContainer.innerHTML = "";
     totalResultsContainer.textContent = "";
     noResultsMessage.style.display = "none";
-    itemDetails.style.display = "none";
   });
 });
 
@@ -74,6 +73,8 @@ document.addEventListener("DOMContentLoaded", function () {
           totalResultsContainer.textContent = "";
         } else {
           document.getElementById("noResultsMessage").style.display = "none";
+          resultsContainer.style.display = "block";
+          totalResultsContainer.style.display = "block";
           cachedData = data; // Cache the data
           showMore = false; // Reset showMore state
           initialTotalResults = cachedData.total_entries; // Update total entries

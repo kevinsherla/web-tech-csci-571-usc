@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import requests
 import base64
 
@@ -38,7 +38,7 @@ class OAuthToken:
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return send_from_directory('static', 'index.html')
 
 
 @app.route('/api/search', methods=['GET'])

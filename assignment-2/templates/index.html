@@ -79,8 +79,28 @@
           <button type="submit">Search</button>
         </form>
       </div>
+      <div
+        id="noResultsMessage"
+        style="
+          display: none;
+          margin-top: 40px;
+          font-weight: bold;
+          font-size: 25px;
+        "
+      >
+        No Results Found
+      </div>
       <div id="totalResults"></div>
       <div id="results"></div>
+    </div>
+    <div class="center" style="display: none" id="itemDetails">
+      <div id="itemDetailsContainer">
+        <h1>Item Details</h1>
+        <button style="margin-bottom: 20px" id="backBtn">
+          Back to search results
+        </button>
+        <table id="itemDetailsTable"></table>
+      </div>
     </div>
   </body>
 </html>

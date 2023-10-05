@@ -27,6 +27,27 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
+  const form = document.getElementById("search");
+
+  const clearButton = document.getElementById("clear_button");
+  clearButton.addEventListener("click", function () {
+    // Reset the form to its initial state
+    form.reset();
+
+    // Additionally, you may want to clear other elements like results
+    const resultsContainer = document.getElementById("results");
+    const totalResultsContainer = document.getElementById("totalResults");
+    const noResultsMessage = document.getElementById("noResultsMessage");
+    const itemDetails = document.getElementById("itemDetails");
+
+    resultsContainer.innerHTML = "";
+    totalResultsContainer.textContent = "";
+    noResultsMessage.style.display = "none";
+    itemDetails.style.display = "none";
+  });
+});
+
+document.addEventListener("DOMContentLoaded", function () {
   const form = document.querySelector("form");
   const resultsContainer = document.getElementById("results");
   const totalResultsContainer = document.getElementById("totalResults");
@@ -45,11 +66,20 @@ document.addEventListener("DOMContentLoaded", function () {
     fetch("/api/search?" + new URLSearchParams(formData).toString())
       .then((response) => response.json())
       .then((data) => {
-        cachedData = data; // Cache the data
-        showMore = false; // Reset showMore state
-        initialTotalResults = cachedData.total_entries; // Update total entries
-        initialKeywords = cachedData.keywords; // Update keywords
-        updateResults(); // Update the results using the new data
+        if (data.total_entries == "0") {
+          document.getElementById("noResultsMessage").style.display = "block";
+          const resultsContainer = document.getElementById("results");
+          const totalResultsContainer = document.getElementById("totalResults");
+          resultsContainer.innerHTML = "";
+          totalResultsContainer.textContent = "";
+        } else {
+          document.getElementById("noResultsMessage").style.display = "none";
+          cachedData = data; // Cache the data
+          showMore = false; // Reset showMore state
+          initialTotalResults = cachedData.total_entries; // Update total entries
+          initialKeywords = cachedData.keywords; // Update keywords
+          updateResults(); // Update the results using the new data
+        }
       })
       .catch((error) => console.error("Error:", error));
 
@@ -77,21 +107,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     hrElement = document.createElement("hr");
-    resultsContainer.appendChild(hrElement);
+    hrElement.classList.add("hr");
+    hrElement.style.width = "40%";
+    hrElement.style.margin = "auto";
+    hrElement.style.marginTop = "10px";
+    hrElement.style.marginBottom = "-3px";
+    totalResultsContainer.appendChild(hrElement);
 
     resultsContainer.innerHTML = "";
     items_info.forEach((item_info, index) => {
       const isTopRated = item_info["Top_Rated"] == "true";
       console.log(isTopRated);
       const topRatedImage = isTopRated
-        ? '<img style="height: 30px; width: 20px;position: absolute; top: -7px;left:5px;" src="https://www.csci571.com/hw/hw6/images/topRatedImage.png" alt="Top Rated">'
+        ? '<img style="height: 30px; width: 20px;position: absolute; top: -7px;left:5px;" src="https://csci571.com/hw/hw6/images/topRatedImage.png" alt="Top Rated">'
         : "";
       const slicedTitle =
         item_info["Title"].length > 50
           ? item_info["Title"].slice(0, 50) + "..."
           : item_info["Title"];
       const itemHtml = `
-        <div class="ind_result">
+        <div class="ind_result" data-itemid="${item_info["Item_ID"]}">
           <div class="item-image-dim">
             <div class="image-container">
               <img id="item-image" src="${
@@ -105,7 +140,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <br />
             <p>Category: ${
               item_info["Category"]
-            }<a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="https://www.csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
+            }<a href=""><img style="height: 15px; width: 15px;opacity: 0.5;" src="https://csci571.com/hw/hw6/images/redirect.png" alt="redirect"></a></p>
             <br />
             <div style="display:flex;"><p>Condition: ${
               item_info["Condition"]
@@ -171,5 +206,106 @@ document.addEventListener("DOMContentLoaded", function () {
     if (button) {
       button.style.display = "none";
     }
+  }
+
+  // Assuming #results is the container that holds all .ind_result elements
+  const indResults = document.getElementById("results");
+
+  indResults.addEventListener("click", function (event) {
+    const clickedCard = event.target.closest(".ind_result");
+
+    if (clickedCard) {
+      const itemId = clickedCard.getAttribute("data-itemid");
+      console.log(itemId);
+
+      // Make AJAX request to fetch detailed information
+      fetch(`/api/getItem?itemId=${itemId}`)
+        .then((response) => response.json())
+        .then((data) => {
+          // Display detailed item information in the modal
+          // console.log(data);
+          handleItemDetails(data);
+          // displayItemDetails(data);
+        })
+        .catch((error) => console.error("Error:", error));
+    }
+  });
+  function handleItemDetails(data) {
+    // Extract item details from the response
+    const item = data.Item;
+
+    // Extracted details
+    const photoURL = item.PictureURL[0];
+    const eBayLink = item.ViewItemURLForNaturalSearch;
+    const title = item.Title;
+    const subTitle = item.SubTitle || "N/A";
+    const price = item.CurrentPrice.Value;
+    const location = `${item.Location}, ${item.PostalCode}`;
+    const seller = item.Seller.UserID;
+    const returnPolicy = item.ReturnPolicy.ReturnsAccepted;
+
+    // Extract item specifics
+    const itemSpecifics = item.ItemSpecifics.NameValueList.map((spec) => ({
+      name: spec.Name,
+      values: spec.Value,
+    }));
+
+    // Display the details in the modal
+    const modal = document.getElementById("itemDetails");
+    const table = document.getElementById("itemDetailsTable");
+    table.innerHTML = ""; // Clear previous contents
+    modal.style.display = "block";
+
+    const details = [
+      {
+        label: "Image",
+        value: `<img src="${photoURL}" alt="Product Image" style="max-width: 100%;">`,
+      },
+      {
+        label: "eBay Link",
+        value: `<a href="${eBayLink}" target="_blank">${eBayLink}</a>`,
+      },
+      { label: "Title", value: title },
+      { label: "SubTitle", value: subTitle },
+      { label: "Price", value: `$${price}` },
+      { label: "Location", value: location },
+      { label: "Seller", value: seller },
+      { label: "Return Policy", value: returnPolicy },
+    ];
+    details.forEach((detail) => {
+      const row = table.insertRow();
+      const labelCell = row.insertCell(0);
+      const valueCell = row.insertCell(1);
+
+      labelCell.innerHTML = `<strong>${detail.label}:</strong>`;
+      valueCell.innerHTML = detail.value;
+    });
+
+    itemSpecifics.forEach((spec) => {
+      const row = table.insertRow();
+      const labelCell = row.insertCell();
+      const valueCell = row.insertCell();
+
+      labelCell.innerHTML = `<strong>${spec.name}:</strong>`;
+      valueCell.innerHTML = spec.values.join(", ");
+    });
+
+    modal.style.display = "block"; // Show the modal
+    toggleVisibility("totalResults", false);
+    toggleVisibility("results", false);
+  }
+
+  document.getElementById("backBtn").addEventListener("click", function () {
+    console.log("Back button clicked"); // Add this line
+    const modal = document.getElementById("itemDetails");
+    modal.style.display = "none"; // Hide the modal
+    // Toggle visibility of other elements
+    toggleVisibility("totalResults", true);
+    toggleVisibility("results", true);
+  });
+
+  function toggleVisibility(elementId, visible) {
+    const element = document.getElementById(elementId);
+    element.style.display = visible ? "block" : "none";
   }
 });

@@ -118,3 +118,26 @@ div#totalResults {
   font-size: larger;
   font-weight: bold;
 }
+
+table {
+  border: 2px solid rgb(212, 212, 212);
+  text-align: left;
+  width: 50%;
+  margin: auto;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table tr {
+  border: 2px solid rgb(212, 212, 212);
+}
+table td {
+  padding-left: 7px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+  border-right: 2px solid rgb(212, 212, 212);
+}
+
+#itemDetailsTable td:first-child {
+  width: 175px; /* Set a fixed width for the first column (adjust as needed) */
+  white-space: nowrap; /* Prevent wrapping within the first column */
+}

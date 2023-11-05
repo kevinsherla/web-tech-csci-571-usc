@@ -1,0 +1,74 @@
+<div class="small">
+    <h5 style="text-align: center;margin: 10px;">{{itemDetails.Item.Title}}</h5>
+    <div class="tabs d-flex justify-content-end">
+        <button class="tab-link" [class.active]="activeTab === 'Product'" (click)="openTab('Product')">Product</button>
+        <button class="tab-link" [class.active]="activeTab === 'Photos'" (click)="openTab('Photos')">Photos</button>
+        <button class="tab-link" [class.active]="activeTab === 'Shipping'"
+            (click)="openTab('Shipping')">Shipping</button>
+        <button class="tab-link" [class.active]="activeTab === 'Seller'" (click)="openTab('Seller')">Seller</button>
+        <button class="tab-link" [class.active]="activeTab === 'SimilarProducts'"
+            (click)="openTab('SimilarProducts')">Similar Products</button>
+    </div>
+
+    <div id="Product" class="tab-content" *ngIf="activeTab === 'Product'">
+        <table class="table">
+            <tbody>
+                <!-- Additional details before item specifics -->
+                <tr>
+                    <td class="detail-title">Product Images</td>
+                    <td class="detail-value">
+                        <!-- Trigger modal with images or display thumbnail -->
+                        <a href="{{ itemDetails.Item.PictureURL[0] }}" data-toggle="modal"
+                            data-target="#imageModal">View Product Images Here</a>
+
+                    </td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Price</td>
+                    <td class="detail-value">{{ itemDetails.Item.CurrentPrice.Value }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Location</td>
+                    <td class="detail-value">{{ itemDetails.Item.Location }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Return Policy (US)</td>
+                    <td class="detail-value">
+                        {{ itemDetails.Item.ReturnPolicy.ReturnsAccepted }}, Within {{
+                        itemDetails.Item.ReturnPolicy.ReturnsWithin }}
+                    </td>
+                </tr>
+                <!-- Existing loop for item specifics -->
+                <tr *ngFor="let detail of itemDetails.Item.ItemSpecifics.NameValueList">
+                    <td class="detail-title">
+                        {{ detail.Name }}
+                    </td>
+                    <td class="detail-value">
+                        {{ detail.Value.join(', ') }}
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+
+
+
+
+
+    <div id="Photos" class="tab-content" *ngIf="activeTab === 'Photos'">
+        <!-- Photos content goes here -->sdfsdf
+    </div>
+
+    <div id="Shipping" class="tab-content" *ngIf="activeTab === 'Shipping'">
+        <!-- Shipping information goes here -->234245
+    </div>
+
+    <div id="Seller" class="tab-content" *ngIf="activeTab === 'Seller'">
+        <!-- Seller information goes here -->
+    </div>
+
+    <div id="SimilarProducts" class="tab-content" *ngIf="activeTab === 'SimilarProducts'">
+        <!-- Similar products listing goes here -->
+    </div>
+</div>

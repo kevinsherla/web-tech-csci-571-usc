@@ -1,0 +1,159 @@
+/* Styles for the tab links */
+.tabs {
+  display: flex; /* This will align the tabs in a row */
+  justify-content: space-between; /* This spaces out the tabs equally */
+  background-color: #ffffff; /* White background for the tab bar */
+}
+
+.tab-link {
+  padding: 10px 20px; /* Adjust padding as needed */
+  border: none; /* Remove border */
+  background-color: #ffffff; /* White background for inactive state */
+  color: black; /* Black text for inactive state */
+  cursor: pointer; /* Changes the cursor to indicate it's clickable */
+  outline: none; /* Removes the outline to avoid focus outline */
+  font-size: 16px; /* Adjust font size as needed */
+}
+
+/* Styles for the active tab link */
+.tab-link.active {
+  background-color: #000000; /* Black background for active state */
+  color: #ffffff; /* White text for active state */
+}
+
+/* You might also want to add a hover effect */
+.tab-link:hover {
+  background-color: darkgrey; /* Light grey background on hover */
+}
+
+.small {
+  margin: auto 10%;
+}
+
+/* Extra styles for padding and margins could be added as necessary */
+.product-details-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 0; /* Adjust padding as needed */
+}
+
+.detail-title, .detail-value {
+  flex: 1;
+}
+
+/* This will ensure that the title and value are each confined to half the container's width */
+.detail-title {
+  text-align: left;
+}
+
+.detail-value {
+  text-align: right;
+}
+/* Add this CSS to your styles */
+
+/* Override the default Bootstrap table styling */
+.table {
+  color: #333;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 1rem;
+  background-color: transparent;
+}
+
+/* Remove cell padding for alignment similar to the image */
+.table td {
+  padding: 0.5rem; /* Adjust as necessary */
+  vertical-align: middle;
+  border-top: 0 none;
+}
+
+/* Style for the odd rows */
+.table tbody tr:nth-of-type(odd) {
+  background-color: #f7f7f7; /* This color should be the lighter row color from the image */
+}
+
+/* Style for the even rows */
+.bg-light {
+  background-color: #e2e3e5; /* This color should be the darker row color from the image */
+}
+
+/* Bold font for the first cell in each row to match the image */
+.font-weight-bold {
+  font-weight: bold;
+}
+
+/* Remove bottom border from the table to match the image */
+.table tbody tr {
+  border-bottom: 0;
+}
+
+/* Set the overall font for the container */
+#Product {
+  font-family: Arial, sans-serif;
+  font-size: 16px; /* Adjust the size as needed */
+  color: white;
+  margin-top: 15px;
+}
+
+/* Style the product detail container */
+.product-detail {
+  display: flex;
+  justify-content: space-between;
+  padding: 8px 12px; /* Adjust padding as needed */
+  align-items: center;
+}
+
+/* Style the title and value containers */
+.detail-title,
+.detail-value {
+  flex: 1;
+}
+
+/* Add the alternating background colors */
+.product-detail:nth-child(odd) {
+  background-color: rgb(40, 42, 46); /* Light grey color */
+}
+
+.product-detail:nth-child(even) {
+  background-color: rgb(31, 33, 37); /* Slightly darker grey color */
+}
+
+/* Style adjustments for titles */
+.detail-title {
+  font-weight: bold;
+  margin-right: 8px; /* Adjust spacing as needed */
+}
+
+/* Style adjustments for values */
+.detail-value {
+  text-align: left;
+}
+.detail-title {
+  width: 30%;
+}
+
+.detail-value {
+  width: 70%;
+}
+/* Assuming .table is the class on your table element */
+.table tbody tr:nth-child(odd) {
+  background-color: rgb(40, 42, 46); /* Light grey color */
+}
+
+.table tbody tr:nth-child(even) {
+  background-color: rgb(31, 33, 37); /* Slightly darker grey color */
+}
+
+table{
+  color: white;
+  width: 100%;
+}
+.table .detail-title,
+.table .detail-value {
+    color: #fff; /* White text color */
+}

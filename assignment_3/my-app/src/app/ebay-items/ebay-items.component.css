@@ -1,0 +1,244 @@
+.container {
+    color: white; /* Sets the font color of everything inside the container to white */
+}
+
+.title-column {
+    color: blue; /* Keeps the title blue */
+}
+
+.product-image {
+    max-width: 80px;
+    max-height: 80px;
+    object-fit: cover;
+}
+
+.product-image {
+    width: 120px;  /* or whatever width you prefer */
+    height: 120px; /* or whatever height you prefer */
+    object-fit: cover; /* This ensures that the image covers the set dimensions without stretching */
+}
+
+.row.border-bottom {
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+.fa-shopping-cart {
+    font-size: 1.2rem;
+    color: white; /* Ensures that the shopping cart icon is also white */
+}
+
+.even-row {
+    background-color: rgb(34, 35, 39); /* Dark gray */
+}
+
+.odd-row {
+    background-color: rgb(23, 24, 27); /* Even darker gray */
+}
+
+
+.row {
+    margin: 0;  /* Removes margin */
+}
+.row.border-bottom {
+    border: none; /* Removes the border */
+    height: 150px; /* Adjust this value as needed */
+    display: flex;
+    align-items: center;
+}
+
+.nowrap {
+    white-space: nowrap;
+}
+
+.row {
+    margin: 0;  
+    padding: 0;  /* Add this line to remove padding from the row */
+}
+
+.row.border-bottom {
+    border: none;
+    height: 150px; 
+    display: flex;
+    align-items: center;
+}
+
+.col-1, .col-2, .col-3 {  /* Add this block to remove padding from columns */
+    padding: 0;
+    padding-right: 15px; /* You can adjust this value to keep a little space between columns if desired */
+}
+.row {
+    margin: 0 !important;
+    padding: 10px !important;
+}
+
+.loading-bar-container {
+    height: 20px;
+    /* width: 100%; */
+    margin: auto 10%;
+    /* padding-top: 10px; */
+    background-color: grey; /* Gray background */
+  }
+  
+  .loading-bar {
+    height: 20px;
+    width: 0;
+    background-image: repeating-linear-gradient(
+      -45deg,
+      #007BFF, 
+      #007BFF 10px, 
+      #FFF 10px,
+      #FFF 20px
+    );
+    animation: expandAndMove 2s forwards;
+  }
+  
+  @keyframes expandAndMove {
+    0% {
+      width: 0;
+      background-position: 0% 0;
+    }
+    100% {
+      width: 100%;
+      background-position: 28px 0;
+    }
+  }
+
+  
+  .pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.pagination-btn, .page-number {
+    padding: 8px 16px;
+    background-color: transparent;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    margin: 0 5px;
+    transition: background-color 0.3s;
+}
+
+.pagination-btn:disabled, .page-number.current-page {
+    cursor: not-allowed;
+    background-color: #007bff;
+    color: white;
+    border: none;
+}
+
+.pagination-btn:not(:disabled):hover, .page-number:not(.current-page):hover {
+    background-color: #f5f5f5;
+}
+
+.modal-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.modal-content {
+    max-width: 80%;
+    max-height: 80%;
+    overflow: auto;
+}
+
+.modal-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: white;
+    font-size: 24px;
+}
+
+
+/* Base styling for the buttons */
+.button {
+    padding: 10px 20px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    background-color: transparent; 
+    color: #FFF; /* Assuming white text. Change if needed. */
+    outline: none;
+}
+
+/* Styling for the selected button */
+.button.selected {
+    background-color: black;
+}
+
+/* Hover effect for buttons */
+.button:hover {
+    background-color: rgba(0,0,0,0.3); /* A light black overlay when hovered */
+}
+
+
+.custom-tooltip {
+    visibility: hidden;
+    width: 120px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 100%;
+    left: 50%;
+    margin-left: -60px;
+    /* Adjustments for the tooltip to appear immediately */
+    transition: visibility 0s, opacity 0.1s linear;
+}
+
+.title-column:hover .custom-tooltip {
+    visibility: visible;
+    opacity: 1;
+}
+
+.button-container {
+    text-align: center; /* This will center the buttons inside the container */
+    padding: 20px; /* Add padding as needed */
+}
+
+.button-container button {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+    border: none;
+    padding: 10px 20px; /* Padding inside the buttons */
+    margin: 0 10px; /* Margin between the buttons */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    cursor: pointer; /* Mouse pointer on hover */
+    transition: background-color 0.3s; /* Transition for hover effect */
+}
+
+.button-container button:hover {
+    background-color: #555; /* Darker background on hover */
+}
+
+/* If you want to add icons, you can use a font library like Font Awesome and include it like this: */
+.button-container button i {
+    margin-right: 5px; /* Spacing between icon and text if you add icons */
+}
+
+/* Rest of the CSS remains the same as previously provided */
+
+.button-container button.inactive {
+    background-color: #fff; /* White background */
+    color: #000; /* Black text */
+}
+
+.button-container button.active {
+    background-color: #000; /* Black background */
+    color: #fff; /* White text */
+}

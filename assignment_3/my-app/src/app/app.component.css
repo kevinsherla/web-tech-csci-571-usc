@@ -1,0 +1,98 @@
+.required { color: red; }
+.form-container { background-color: rgb(31, 33, 37); color: #FFF; border-radius: 5px; }
+/* select, input[type="text"], input[type="number"] { width: 100%; } */
+
+.form-container {
+    margin: auto 10%;
+    padding: 20px 25%;
+}
+ 
+.same-line {
+    display: inline;
+}
+.inline-group {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    gap: 10px;
+}
+
+.inline-group > label {
+    margin-bottom: 0;
+}
+
+.from-section {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.error-message {
+    color: red;
+}
+
+input.ng-invalid.ng-touched {
+    border: 1px solid red;
+}
+
+input[disabled] {
+    background-color: lightgrey;
+}
+input:disabled {
+    background-color: lightgrey;
+}
+
+.dropdown-content {
+    position: absolute;
+    border: 1px solid #ccc;
+    width: 100%;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #f9f9f9;
+    z-index: 10;  /* ensures it stays on top */
+}
+
+.dropdown-content div {
+    padding: 5px 10px;
+    cursor: pointer;
+    color: black;
+}
+
+.dropdown-content div:hover {
+    background-color: #ddd;
+}
+
+.search-btn:enabled {
+    background-color: white;
+    color: black;
+    border: 1px solid #000;
+    box-shadow: none;
+}
+
+/* Style for the disabled button */
+.search-btn:disabled {
+    background-color: #e7e7e7;
+    color: #999999;
+    border: 1px solid #ccc;
+    box-shadow: none;
+}
+
+/* Style for the button when hovered to maintain the contrast if needed */
+.search-btn:enabled:hover {
+    background-color: #f8f8f8; /* Slightly darker to give feedback */
+    cursor: pointer;
+}
+
+/* Adjust padding if needed to match your design requirements */
+.search-btn {
+    padding: 5px 15px;
+}
+.search-btn {
+    margin-right: 10px;
+  }
+  
+  /* Ensure the icons are aligned well with the text */
+  .btn i {
+    margin-right: 5px;
+  }
+  

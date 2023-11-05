@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Search</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+</head>
+
+<body class="p-5">
+
+    <div class="form-container">
+        <h2>Product Search</h2>
+        <form (ngSubmit)="onSubmit()" #productSearchForm="ngForm">
+            <div class="form-group inline-group">
+                <label for="keyword">Keyword<span class="required">*</span></label>
+                <input type="text" id="keyword" placeholder="Enter Product Name (eg. iPhone 8)" 
+                       [(ngModel)]="formData.keyword" name="keyword" class="form-control" required>
+            </div>
+    
+            <div class="form-group inline-group">
+                <label for="category">Category</label>
+                <select id="category" [(ngModel)]="formData.category" name="category" class="form-control">
+                    <option value="all">All Categories</option>
+                    <option value="550">Art</option>
+                    <option value="2984">Baby</option>
+                    <option value="267">Books</option>
+                    <option value="11450">Clothing, Shoes & Accessories</option>
+                    <option value="58058">Computers/Tablets & Networking</option>
+                    <option value="26395">Health & Beauty</option>
+                    <option value="11233">Music</option>
+                    <option value="1249">Video Games & Consoles</option>
+                </select>
+            </div>
+    
+            <div class="form-group inline-group">
+                <label>Condition</label>
+                <input type="checkbox" id="new" [(ngModel)]="formData.condition.new" name="condition_new" value="true">
+                <label for="new">New</label>
+                <input type="checkbox" id="used" [(ngModel)]="formData.condition.used" name="condition_used" value="true">
+                <label for="used">Used</label>
+                <input type="checkbox" id="unspecified" [(ngModel)]="formData.condition.unspecified" name="condition_unspecified" value="true">
+                <label for="unspecified">Unspecified</label>
+            </div>
+    
+            <div class="form-group inline-group">
+                <label>Shipping Options</label>
+                <input type="checkbox" id="localPickup" [(ngModel)]="formData.shipping.localPickup" name="shipping_localPickup" value="true">
+                <label for="localPickup">Local Pickup</label>
+                <input type="checkbox" id="freeShipping" [(ngModel)]="formData.shipping.freeShipping" name="shipping_freeShipping" value="true">
+                <label for="freeShipping">Free Shipping</label>
+            </div>
+    
+            <div class="form-group inline-group">
+                <label for="distance">Distance (Miles)</label>
+                <input type="number" id="distance" [(ngModel)]="formData.distance" name="distance" class="form-control" value="10">
+            </div>
+    
+            <div class="form-group from-section">
+                <label>From<span class="required">*</span></label>
+                <div>
+                    <div class="inline-group">
+                        <input type="radio" id="currentLocation" [(ngModel)]="formData.from" value="currentLocation" name="from" required>
+                        <label for="currentLocation">Current Location</label>
+                    </div>
+                    <div class="inline-group">
+                        <input type="radio" id="otherLocation" [(ngModel)]="formData.from" value="otherLocation" name="from">
+                        <label for="otherLocation">Other. Please specify zip code:</label>
+                    </div>
+                    
+                    <!-- Zip Code Input and Dropdown for Suggestions -->
+                    <div class="dropdown">
+                        <input
+                        autocomplete="off" 
+                        type="text" 
+                        id="zipCode" 
+                        [formControl]="zipCodeControl" 
+                        name="zipCode" 
+                        class="form-control" 
+                        [disabled]="!otherSelected()"
+                        maxlength="5" 
+                        [class.is-invalid]="zipCodeControl.invalid && otherSelected()"
+                        [required]="otherSelected()" 
+                        (focus)="onFocus()" 
+                        (blur)="onBlur()">
+                        <!-- Dropdown with Suggestions -->
+                        <div *ngIf="showDropdown && zipSuggestions.length" class="dropdown-content">
+                            <div *ngFor="let suggestion of zipSuggestions" (click)="selectZip(suggestion)">
+                                {{suggestion.postalCode}}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div *ngIf="zipCodeControl.invalid && zipCodeControl.touched && otherSelected()" class="invalid-feedback">
+                        Please enter a zip code.
+                    </div>
+                    
+                </div>
+            </div>
+            
+        
+            <div class="form-group">
+                <button type="submit" 
+        [disabled]="!productSearchForm.form.controls['keyword'].value || 
+                   (productSearchForm.form.controls['from'].value === 'otherLocation' && 
+                    zipCodeControl.value?.length !== 5)"
+        class="btn btn-primary search-btn">
+  <i class="fas fa-search"></i> Search
+</button>
+
+<button type="reset" class="btn btn-secondary">
+  <i class="fas fa-bars"></i> Clear
+</button>
+
+            </div>
+            
+        </form>
+    </div>
+<app-ebay-items></app-ebay-items>
+</body>
+
+</html>

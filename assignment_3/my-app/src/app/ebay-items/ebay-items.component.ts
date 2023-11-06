@@ -91,7 +91,11 @@ export class EbayItemsComponent {
 
   printItemID(item: any): void {
     // console.log(item.itemId);
-    this.selectedItemId = item.itemId;
+    this.selectedItemId = item;
     this.child.callApi(item.itemId);
+  }
+  handleSearchClickedChange(isSearchClicked: boolean) {
+    this.isSearchClicked = isSearchClicked;
+    // Now `isSearchClicked` is updated with the value emitted from `ItemDetailComponent`
   }
 }

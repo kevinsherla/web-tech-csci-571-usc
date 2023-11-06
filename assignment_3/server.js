@@ -144,6 +144,32 @@ app.get('/api/getItem', async (req, res) => {
     }
 });
 
+const API_KEY = 'AIzaSyDLkKrhV-UAYq5kz9aVNorjOTuS3jYrO3w';
+const CX = 'f7a843f72eb524bbb';
+
+app.get('/api/photos', async (req, res) => {
+  const title = req.query.title;
+  const url = `https://www.googleapis.com/customsearch/v1`;
+  const params = {
+    q: title,
+    cx: CX,
+    imgSize: 'huge',
+    // imgType: 'news',
+    num: 8,
+    searchType: 'image',
+    key: API_KEY
+  };
+
+  try {
+    const response = await axios.get(url, { params });
+    // Send back the relevant data to the front end
+    res.json(response.data.items);
+  } catch (error) {
+    console.error('Error fetching photos from Google API:backedn', error);
+    res.status(500).send('Error fetching photos backend');
+  }
+});
+
 const PORT = 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);

@@ -1,5 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, ViewChild, EventEmitter } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { EbayItemsComponent } from '../ebay-items/ebay-items.component';
 
 @Component({
   selector: 'app-item-detail',
@@ -7,10 +8,15 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./item-detail.component.css']
 })
 export class ItemDetailComponent {
-  @Input() itemId: number | null = null;
+  @Input() itemId: any = '';
+  @Input() isSearchClicked: boolean | null = null;
+  @Output() searchClickedChange = new EventEmitter<boolean>();
   itemDetails: any = '';
+  photos: any = '';
+  itemDetailsBool = false;
 
-  constructor() { }
+  constructor() {
+  }
 
   activeTab: string = 'Product';
 
@@ -18,24 +24,12 @@ export class ItemDetailComponent {
     this.activeTab = tabName;
   }
 
-  // Call this method when the item ID input changes
-  // getItemDetails() {
-  //   if (this.itemId) {
-  //     const backendUrl = `http://localhost:3000/api/getItem?itemId=${this.itemId}`;
-  //     this.http.get(backendUrl).subscribe(
-  //       (response) => {
-  //         // Here, just logging the response to the console
-  //         console.log(response);
-  //       },
-  //       (error) => {
-  //         console.error('Error fetching item details:', error);
-  //       }
-  //     );
-  //   }
-  // }
   callApi(itemId: number) {
     console.log(itemId);
     const backendUrl = `http://localhost:3000/api/getItem?itemId=${itemId}`;
+    this.itemDetailsBool = true;
+    this.isSearchClicked = !this.isSearchClicked;
+    this.searchClickedChange.emit(this.isSearchClicked);
 
     fetch(backendUrl)
       .then(response => {
@@ -52,6 +46,54 @@ export class ItemDetailComponent {
       .catch(error => {
         // Handle any errors here
         console.error('Error fetching item details:', error);
+      });
+  }
+  button1Click(): void {
+    console.log('Button 1 was clicked!');
+    this.itemDetailsBool = false;
+    this.isSearchClicked = !this.isSearchClicked;
+    this.searchClickedChange.emit(this.isSearchClicked);
+  }
+
+  button2Click(): void {
+    console.log('Button 2 was clicked!');
+    // console.log(this.itemId);
+  }
+
+  button3Click(): void {
+    console.log('Button 3 was clicked!');
+  }
+
+  onPhotosButtonClick(title: string) {
+    this.openTab('Photos');
+    this.fetchPhotos(title);
+  }
+
+  onSimilarProductsButtonClick(itemTitle: number) {
+    this.openTab('SimilarProducts');
+    this.fetchSimilarProducts(itemTitle);
+  }
+  fetchSimilarProducts(id: number) {
+    console.log(id);
+  }
+  fetchPhotos(title: string) {
+    // Encode the title to be used in a query parameter
+    const encodedTitle = encodeURIComponent(title);
+
+    fetch(`http://localhost:3000/api/photos?title=${encodedTitle}`)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Network response was not ok ' + response.statusText);
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log('Photos fetched frontend:', data);
+        this.photos = data;
+        // Process the response and update your UI as needed
+      })
+      .catch(error => {
+        console.error('Error fetching photos: frontend', error);
       });
   }
 }

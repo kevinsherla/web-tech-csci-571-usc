@@ -1,13 +1,23 @@
-<div class="small">
+<div class="small" *ngIf="itemDetailsBool">
+
     <h5 style="text-align: center;margin: 10px;">{{itemDetails.Item.Title}}</h5>
+    <div class="container">
+        <button class="list-button" (click)="button1Click()">&lt; List</button>
+        <div class="right-buttons">
+            <button (click)="button2Click()">Button 2</button>
+            <button (click)="button3Click()">Button 3</button>
+        </div>
+    </div>
     <div class="tabs d-flex justify-content-end">
         <button class="tab-link" [class.active]="activeTab === 'Product'" (click)="openTab('Product')">Product</button>
-        <button class="tab-link" [class.active]="activeTab === 'Photos'" (click)="openTab('Photos')">Photos</button>
+        <button class="tab-link" [class.active]="activeTab === 'Photos'"
+            (click)="onPhotosButtonClick(itemDetails.Item.Title)">Photos</button>
+
         <button class="tab-link" [class.active]="activeTab === 'Shipping'"
             (click)="openTab('Shipping')">Shipping</button>
         <button class="tab-link" [class.active]="activeTab === 'Seller'" (click)="openTab('Seller')">Seller</button>
         <button class="tab-link" [class.active]="activeTab === 'SimilarProducts'"
-            (click)="openTab('SimilarProducts')">Similar Products</button>
+            (click)="onSimilarProductsButtonClick(itemDetails.Item.ItemID)">Similar Products</button>
     </div>
 
     <div id="Product" class="tab-content" *ngIf="activeTab === 'Product'">
@@ -51,22 +61,120 @@
         </table>
     </div>
 
-
-
-
-
-
     <div id="Photos" class="tab-content" *ngIf="activeTab === 'Photos'">
-        <!-- Photos content goes here -->sdfsdf
+        <div class="photos-grid">
+            <div *ngFor="let photo of this.photos" class="photo-item">
+                <img [src]="photo.link" [alt]="photo.title" />
+            </div>
+        </div>
     </div>
 
     <div id="Shipping" class="tab-content" *ngIf="activeTab === 'Shipping'">
-        <!-- Shipping information goes here -->234245
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td class="detail-title">Shipping Cost</td>
+                    <td class="detail-value">{{ itemId.shippingInfo[0].shippingServiceCost[0].__value__ | currency:
+                        itemId.shippingInfo[0].shippingServiceCost[0]["@currencyId"] }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Shipping Locations</td>
+                    <td class="detail-value">{{ itemId.shippingInfo[0].shipToLocations[0] }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Handling Time</td>
+                    <td class="detail-value">{{ itemId.shippingInfo[0].handlingTime[0] }} Day</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Expedited Shipping</td>
+                    <td class="detail-value">
+                        <span *ngIf="itemId.shippingInfo[0].expeditedShipping[0] === 'true'; else notExpedited">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </span>
+                        <ng-template #notExpedited>
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        </ng-template>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="detail-title">One Day Shipping</td>
+                    <td class="detail-value">
+                        <span *ngIf="itemId.shippingInfo[0].oneDayShippingAvailable[0] === 'true'; else notOneDay">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </span>
+                        <ng-template #notOneDay>
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        </ng-template>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Returns Accepted</td>
+                    <td class="detail-value">
+                        <span *ngIf="itemId.returnsAccepted[0] === 'true'; else notAccepted">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </span>
+                        <ng-template #notAccepted>
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        </ng-template>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 
+
     <div id="Seller" class="tab-content" *ngIf="activeTab === 'Seller'">
-        <!-- Seller information goes here -->
+        <table class="table">
+            <tbody>
+                <tr>
+                    <td class="detail-title" colspan="2">
+                <tr>
+                    <td class="text-center" style="text-align: center;" colspan="2"><strong>{{
+                            itemDetails.Item.Seller.UserID }}</strong></td>
+                </tr>
+                </td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Feedback Score</td>
+                    <td class="detail-value">{{ itemDetails.Item.Seller.FeedbackScore }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Popularity</td>
+                    <td class="detail-value">{{ itemDetails.Item.Seller.PositiveFeedbackPercent }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Feedback Rating Star</td>
+                    <td class="detail-value">
+                        <i class="bi bi-star-fill" [style.color]="itemDetails.Item.Seller.FeedbackRatingStar"></i>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="detail-title">Top Rated</td>
+                    <td class="detail-value">
+                        <span *ngIf="itemDetails.Item.Seller.TopRatedSeller; else notTopRated">
+                            <i class="bi bi-check-circle-fill text-success"></i>
+                        </span>
+                        <ng-template #notTopRated>
+                            <i class="bi bi-x-circle-fill text-danger"></i>
+                        </ng-template>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td class="detail-title">Store Name</td>
+                    <td class="detail-value">{{ itemDetails.Item.Storefront.StoreName }}</td>
+                </tr>
+                <tr>
+                    <td class="detail-title">Buy Product At</td>
+                    <td class="detail-value">
+                        <a href="{{ itemDetails.Item.Storefront.StoreURL }}" target="_blank">Visit Store</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
     </div>
+
 
     <div id="SimilarProducts" class="tab-content" *ngIf="activeTab === 'SimilarProducts'">
         <!-- Similar products listing goes here -->

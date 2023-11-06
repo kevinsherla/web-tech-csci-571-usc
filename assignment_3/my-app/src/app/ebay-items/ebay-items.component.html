@@ -69,4 +69,6 @@
 <!-- ebay-items.component.html -->
 <!-- ... other parts of your template ... -->
 <!-- *ngIf="selectedItemId" [itemId]="selectedItemId" -->
-<app-item-detail [itemId]="selectedItemId"></app-item-detail>
+<app-item-detail [itemId]="selectedItemId" [isSearchClicked]="isSearchClicked"
+    (searchClickedChange)="handleSearchClickedChange($event)">
+</app-item-detail>

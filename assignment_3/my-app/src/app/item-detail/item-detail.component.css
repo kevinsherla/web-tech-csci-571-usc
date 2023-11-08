@@ -1,36 +1,32 @@
-/* Styles for the tab links */
 .tabs {
-  display: flex; /* This will align the tabs in a row */
-  justify-content: space-between; /* This spaces out the tabs equally */
-  background-color: #ffffff; /* White background for the tab bar */
+  display: flex;
+  justify-content: space-between;
+  background-color: #ffffff;
 }
 
 .tab-link {
-  padding: 10px 20px; /* Adjust padding as needed */
-  border: none; /* Remove border */
-  background-color: #ffffff; /* White background for inactive state */
-  color: black; /* Black text for inactive state */
-  cursor: pointer; /* Changes the cursor to indicate it's clickable */
-  outline: none; /* Removes the outline to avoid focus outline */
-  font-size: 16px; /* Adjust font size as needed */
+  padding: 10px 20px;
+  border: none;
+  background-color: #ffffff;
+  color: black;
+  cursor: pointer;
+  outline: none;
+  font-size: 16px;
 }
 
-/* Styles for the active tab link */
 .tab-link.active {
-  background-color: #000000; /* Black background for active state */
-  color: #ffffff; /* White text for active state */
+  background-color: #000000;
+  color: #ffffff;
 }
 
-/* You might also want to add a hover effect */
 .tab-link:hover {
-  background-color: darkgrey; /* Light grey background on hover */
+  background-color: darkgrey;
 }
 
 .small {
   margin: auto 10%;
 }
 
-/* Extra styles for padding and margins could be added as necessary */
 .product-details-container {
   display: flex;
   flex-direction: column;
@@ -39,14 +35,13 @@
 .product-detail-row {
   display: flex;
   justify-content: space-between;
-  padding: 8px 0; /* Adjust padding as needed */
+  padding: 8px 0;
 }
 
 .detail-title, .detail-value {
   flex: 1;
 }
 
-/* This will ensure that the title and value are each confined to half the container's width */
 .detail-title {
   text-align: left;
 }
@@ -54,9 +49,7 @@
 .detail-value {
   text-align: right;
 }
-/* Add this CSS to your styles */
 
-/* Override the default Bootstrap table styling */
 .table {
   color: #333;
   width: 100%;
@@ -65,74 +58,64 @@
   background-color: transparent;
 }
 
-/* Remove cell padding for alignment similar to the image */
 .table td {
-  padding: 0.5rem; /* Adjust as necessary */
+  padding: 0.5rem;
   vertical-align: middle;
   border-top: 0 none;
 }
 
-/* Style for the odd rows */
 .table tbody tr:nth-of-type(odd) {
-  background-color: #f7f7f7; /* This color should be the lighter row color from the image */
+  background-color: #f7f7f7;
 }
 
-/* Style for the even rows */
 .bg-light {
-  background-color: #e2e3e5; /* This color should be the darker row color from the image */
+  background-color: #e2e3e5;
 }
 
-/* Bold font for the first cell in each row to match the image */
 .font-weight-bold {
   font-weight: bold;
 }
 
-/* Remove bottom border from the table to match the image */
 .table tbody tr {
   border-bottom: 0;
 }
 
-/* Set the overall font for the container */
 #Product {
   font-family: Arial, sans-serif;
-  font-size: 16px; /* Adjust the size as needed */
+  font-size: 16px;
   color: white;
   margin-top: 15px;
 }
 
-/* Style the product detail container */
 .product-detail {
   display: flex;
   justify-content: space-between;
-  padding: 8px 12px; /* Adjust padding as needed */
+  padding: 8px 12px;
   align-items: center;
 }
 
-/* Style the title and value containers */
 .detail-title,
 .detail-value {
   flex: 1;
 }
 
-/* Add the alternating background colors */
 .product-detail:nth-child(odd) {
-  background-color: rgb(40, 42, 46); /* Light grey color */
+  background-color: rgb(40, 42, 46);
 }
 
 .product-detail:nth-child(even) {
-  background-color: rgb(31, 33, 37); /* Slightly darker grey color */
+  background-color: rgb(31, 33, 37);
 }
 
-/* Style adjustments for titles */
 .detail-title {
   font-weight: bold;
-  margin-right: 8px; /* Adjust spacing as needed */
+  margin-right: 8px;
 }
 
-/* Style adjustments for values */
 .detail-value {
   text-align: left;
 }
+
 .detail-title {
   width: 30%;
 }
@@ -140,23 +123,25 @@
 .detail-value {
   width: 70%;
 }
-/* Assuming .table is the class on your table element */
+
 .table tbody tr:nth-child(odd) {
-  background-color: rgb(40, 42, 46); /* Light grey color */
+  background-color: rgb(40, 42, 46);
 }
 
 .table tbody tr:nth-child(even) {
-  background-color: rgb(31, 33, 37); /* Slightly darker grey color */
+  background-color: rgb(31, 33, 37);
 }
 
-table{
+table {
   color: white;
   width: 100%;
 }
+
 .table .detail-title,
 .table .detail-value {
-    color: #fff; /* White text color */
+  color: #fff;
 }
+
 .container {
   display: flex;
   justify-content: space-between;
@@ -170,12 +155,12 @@ table{
   border-radius: 3px;
   cursor: pointer;
   outline: none;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   font-size: 16px;
 }
 
 .list-button:hover {
-  background-color: #e1e1e1; /* Slightly darker on hover */
+  background-color: #e1e1e1;
 }
 
 .right-buttons {
@@ -183,7 +168,6 @@ table{
   gap: 10px;
 }
 
-/* Other button styles, if needed */
 button {
   cursor: pointer;
   padding: 5px 15px;
@@ -191,29 +175,176 @@ button {
   border: 1px solid #ccc;
 }
 
-
 .photos-grid {
   column-count: 3;
   column-gap: 10px;
 }
 
 .photo-item {
-  break-inside: avoid; /* This prevents the item from being split across columns */
-  margin-bottom: 10px; /* This will be the vertical gap between items */
+  break-inside: avoid;
+  margin-bottom: 10px;
 }
 
 .photo-item img {
   width: 100%;
-  display: block; /* This removes the default inline image whitespace */
+  display: block;
   border: 5px solid black;
   box-sizing: border-box;
 }
 
-/* You no longer need the specific nth-child adjustments, as the column layout takes care of the flow */
 .text-success {
   color: green!important;
 }
 
 .text-danger {
   color: red!important;
+}
+
+.loading-bar-container {
+  height: 20px;
+  margin: auto 10%;
+  background-color: grey;
+}
+
+.loading-bar {
+  height: 20px;
+  width: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    #007BFF, 
+    #007BFF 10px, 
+    #FFF 10px,
+    #FFF 20px
+  );
+  animation: expandAndMove 2s forwards;
+}
+
+@keyframes expandAndMove {
+  0% {
+    width: 0;
+    background-position: 0% 0;
+  }
+  100% {
+    width: 100%;
+    background-position: 28px 0;
+  }
+}
+
+#SimilarProducts {
+  color: white;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.product-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  background: rgb(31, 33, 37);
+  padding: 10px;
+  border-radius: 8px;
+  height: 140px;
+}
+
+.product-item img {
+  width: 100px;
+  height: auto;
+  margin-right: 20px;
+  border-radius: 4px;
+}
+
+.product-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.title {
+  font-size: 14px;
+  color: teal;
+  margin-bottom: 4px;
+}
+
+.price {
+  font-size: 14px;
+  color: limegreen;
+  margin-bottom: 4px;
+}
+
+.shipping {
+  font-size: 14px;
+  color: goldenrod;
+  margin-bottom: 4px;
+}
+
+.time-left {
+  font-size: 14px;
+  color: white;
+}
+
+.sort-controls {
+  padding: 10px;
+}
+
+.sort-controls select {
+  border: none;
+  padding: 5px 10px;
+  margin-right: 5px;
+}
+
+.modal.show .modal-backdrop {
+  opacity: 0.8;
+  background-color: rgba(0, 0, 0, 0.7);
+}
+
+.image-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.nav-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 24px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.nav-arrow:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+}
+
+.left-arrow {
+  left: 10px;
+}
+
+.right-arrow {
+  right: 10px;
+}
+
+.close-button {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  background-color: grey;
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  z-index: 1;
+  display: inline-block;
+}
+
+.close-button:hover {
+  background-color: darkgrey;
 }

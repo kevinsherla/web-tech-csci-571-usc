@@ -6,6 +6,10 @@ const app = express();
 const cors = require('cors');
 const port = 3000;
 const app_key = "KevinShe-assignme-PRD-c727b8eb0-b55a0d9c";
+const { MongoClient, ObjectID }= require('mongodb');
+const { ObjectId } = require('mongodb');
+
+
 
 function generateEbayUrl(input) {
     let params = {
@@ -31,7 +35,7 @@ function generateEbayUrl(input) {
     }
     params['itemFilter(0).name'] = 'MaxDistance';
     params['itemFilter(0).value'] = input.distance;
-    // console.log(params);
+
 
     if (input.condition) {
         const conditionMap = { new: '1000', used: '3000'};
@@ -95,19 +99,16 @@ class OAuthToken {
 
 app.use(cors());
 app.use(cors({
-    origin: 'http://localhost:4200' // replace with your frontend domain
+    origin: 'http://localhost:4200' 
   }));
   
 
-// Middleware to parse JSON data from POST requests
 app.use(bodyParser.json());
 
-// Route to handle form submissions from frontend
 app.post('/api/ebay-search', async (req, res) => {
     let url = generateEbayUrl(req.body);
     try {
         const response = await axios.get(url);
-        // console.log(url);
         res.status(200).send(response.data);
     } catch (error) {
         console.error(error);
@@ -162,13 +163,137 @@ app.get('/api/photos', async (req, res) => {
 
   try {
     const response = await axios.get(url, { params });
-    // Send back the relevant data to the front end
+    
     res.json(response.data.items);
   } catch (error) {
     console.error('Error fetching photos from Google API:backedn', error);
     res.status(500).send('Error fetching photos backend');
   }
 });
+
+app.get('/api/similaritems', async (req, res) => {
+    const itemId = req.query.itemId; 
+    const url = 'https://svcs.ebay.com/MerchandisingService';
+  
+    const params = {
+      'OPERATION-NAME': 'getSimilarItems',
+      'SERVICE-NAME': 'MerchandisingService',
+      'SERVICE-VERSION': '1.1.0',
+      'CONSUMER-ID': 'KevinShe-assignme-PRD-c727b8eb0-b55a0d9c',
+      'RESPONSE-DATA-FORMAT': 'JSON',
+      'REST-PAYLOAD': '',
+      itemId: itemId,
+      maxResults: 20
+    };
+  
+    try {
+      const response = await axios.get(url, { params });
+      res.json(response.data.getSimilarItemsResponse.itemRecommendations.item);
+    } catch (error) {
+      console.error('Error fetching similar items from eBay API:', error);
+      res.status(500).send('Error fetching similar items');
+    }
+  });
+
+app.get('/api/zip-code-suggestions', async (req, res) => {
+    const val = req.query.val; 
+    if (val && val.length >= 1) {
+        const apiUrl = `http://api.geonames.org/postalCodeSearchJSON?postalcode_startsWith=${val}&country=US&maxRows=5&username=kevin.sherla`;
+        try {
+            const response = await axios.get(apiUrl);
+            res.status(200).json(response.data.postalCodes || []);
+        } catch (error) {
+            console.error(error);
+            res.status(500).send('Server Error');
+        }
+    } else {
+        res.status(400).send('Invalid zip code input');
+    }
+});
+
+const uri = "mongodb+srv://sherla:usc@ebay.k3z7z3u.mongodb.net/<database>";
+
+async function connectToMongoDB() {
+    const client = new MongoClient(uri);
+  
+    try {
+      await client.connect();
+      console.log("Connected to MongoDB");
+      return client; 
+    } catch (error) {
+      console.error("Error connecting to MongoDB:", error);
+      throw error;
+    }
+  }
+  
+  module.exports = connectToMongoDB;
+
+connectToMongoDB().then((db) => {
+
+}).catch((error) => {
+  console.error("Error in MongoDB connection:", error);
+});
+
+app.post('/api/saveItem', async (req, res) => {
+    try {
+      const client = await connectToMongoDB();
+      
+      const db = client.db();
+  
+      const collection = db.collection('ass3');
+      
+      const result = await collection.insertOne(req.body);
+      
+      await client.close();
+  
+      res.status(201).json({ message: 'Item saved successfully' });
+    } catch (error) {
+      console.error('Error saving item to MongoDB:', error);
+      res.status(500).json({ error: 'Failed to save item to MongoDB' });
+    }
+  });
+
+app.get('/api/getItems', async (req, res) => {
+    try {
+      const client = await connectToMongoDB();
+    
+      const db = client.db();
+  
+      const collection = db.collection('ass3'); 
+
+      const items = await collection.find({}).toArray();
+      
+      await client.close();
+  
+      res.status(200).json(items);
+    } catch (error) {
+      console.error('Error retrieving items from MongoDB:', error);
+      res.status(500).json({ error: 'Failed to retrieve items from MongoDB' });
+    }
+  });
+  
+  app.delete('/api/removeItem/:itemId', async (req, res) => {
+    try {
+      const itemId = req.params.itemId;
+      const client = await connectToMongoDB();
+      const db = client.db();
+      const collection = db.collection('ass3');
+
+      const objectId = new ObjectId(itemId);
+      const result = await collection.deleteOne({ _id: objectId });
+  
+      if (result.deletedCount === 1) {
+        console.log(`Item with ID ${itemId} removed from MongoDB`);
+        res.status(200).json({ message: 'Item removed successfully' });
+      } else {
+        console.log(`Item with ID ${itemId} not found`);
+        res.status(404).json({ error: 'Item not found' });
+      }
+    } catch (error) {
+      console.error('Error removing item:', error);
+      res.status(500).json({ error: 'Internal server error' });
+    }
+  });
 
 const PORT = 3000;
 app.listen(PORT, () => {

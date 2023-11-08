@@ -1,11 +1,26 @@
 <div class="small" *ngIf="itemDetailsBool">
 
+    <div class="loading-bar-container" *ngIf="loading">
+        <div class="loading-bar"></div>
+    </div>
     <h5 style="text-align: center;margin: 10px;">{{itemDetails.Item.Title}}</h5>
     <div class="container">
         <button class="list-button" (click)="button1Click()">&lt; List</button>
         <div class="right-buttons">
-            <button (click)="button2Click()">Button 2</button>
-            <button (click)="button3Click()">Button 3</button>
+            <button (click)="button2Click()"
+                style="background-color: #4267B2; color: white; border: none; padding: 10px 20px; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                <i class="fab fa-facebook-square"></i>
+            </button>
+            <button (click)="button3Click(); icon3State = !icon3State">
+                <span class="material-symbols-outlined" *ngIf="!icon3State">
+                    add_shopping_cart
+                </span>
+                <span class="material-symbols-outlined" *ngIf="icon3State">
+                    remove_shopping_cart
+                </span>
+            </button>
+
+
         </div>
     </div>
     <div class="tabs d-flex justify-content-end">
@@ -23,14 +38,39 @@
     <div id="Product" class="tab-content" *ngIf="activeTab === 'Product'">
         <table class="table">
             <tbody>
-                <!-- Additional details before item specifics -->
                 <tr>
                     <td class="detail-title">Product Images</td>
                     <td class="detail-value">
-                        <!-- Trigger modal with images or display thumbnail -->
-                        <a href="{{ itemDetails.Item.PictureURL[0] }}" data-toggle="modal"
-                            data-target="#imageModal">View Product Images Here</a>
-
+                        <a href="#" (click)="openImageModal(0)">View Product Images Here</a>
+                        <div class="modal fade" id="imageModal" tabindex="-1" role="dialog"
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Product Images</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                                            (click)="closeImageModal()">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="image-container">
+                                            <button class="nav-arrow left-arrow" (click)="navigateImages(-1)">
+                                                <i class="fas fa-chevron-left"></i>
+                                            </button>
+                                            <div class="image-slide">
+                                                <img [src]="itemDetails?.Item?.PictureURL[selectedImageIndex]"
+                                                    class="img-fluid" alt="Product Image">
+                                                <div class="close-button" (click)="closeImageModal()">Close</div>
+                                            </div>
+                                            <button class="nav-arrow right-arrow" (click)="navigateImages(1)">
+                                                <i class="fas fa-chevron-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -140,7 +180,18 @@
                 </tr>
                 <tr>
                     <td class="detail-title">Popularity</td>
-                    <td class="detail-value">{{ itemDetails.Item.Seller.PositiveFeedbackPercent }}</td>
+                    <td class="detail-value">
+                        <div style="position: relative; width: 25px; height: 25px;">
+                            <round-progress [current]="itemDetails.Item.Seller.PositiveFeedbackPercent" [max]="100"
+                                [radius]="15" [color]="'#006400'" [stroke]="4">
+                            </round-progress>
+                            <span style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);">
+                                {{ itemDetails.Item.Seller.PositiveFeedbackPercent }}
+                            </span>
+                        </div>
+                    </td>
+
+
                 </tr>
                 <tr>
                     <td class="detail-title">Feedback Rating Star</td>
@@ -176,7 +227,33 @@
     </div>
 
 
+    <!-- Angular component template -->
     <div id="SimilarProducts" class="tab-content" *ngIf="activeTab === 'SimilarProducts'">
-        <!-- Similar products listing goes here -->
+        <div class="sort-controls">
+            <select [(ngModel)]="sortBy" (ngModelChange)="sortSimilarItems()" id="sortBy">
+                <option value="default">Default</option>
+                <option value="productName">Product Name</option>
+                <option value="daysLeft">Days Left</option>
+                <option value="price">Price</option>
+                <option value="shippingCost">Shipping Cost</option>
+            </select>
+            <select [(ngModel)]="sortDirection" (ngModelChange)="sortSimilarItems()" id="sortDirection"
+                [disabled]="sortBy === 'default'">
+                <option value="ascending">Ascending</option>
+                <option value="descending">Descending</option>
+            </select>
+        </div>
+        <div *ngFor="let product of similar" class="product-item">
+            <img [src]="product.imageURL" alt="{{ product.title }}">
+            <div class="product-details">
+                <div class="title">{{ product.title }}</div>
+                <div class="price">Price: ${{ product.buyItNowPrice?.__value__ }}</div>
+                <div class="shipping">Shipping Cost: ${{ product.shippingCost?.__value__ }}</div>
+                <div class="time-left">Days Left: {{ calculateDaysLeft(product.timeLeft) }}</div>
+            </div>
+        </div>
     </div>
+
+
+
 </div>

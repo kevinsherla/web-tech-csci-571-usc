@@ -21,6 +21,9 @@ export class EbayItemsComponent {
   selectedImage: string = '';
   showTooltip: boolean = false;
   selectedItemId: number | null = null;
+  wishlistItems: any = '';
+  showDetailButton: boolean = false;
+  showAnotherButton: boolean = true;
 
   totalPages: number = Math.ceil(this.ebayItems.length / this.itemsPerPage);
   constructor() { }
@@ -80,22 +83,87 @@ export class EbayItemsComponent {
   showResults(): void {
     this.showingResults = true;
     this.showingWishlist = false;
-    // Fetch eBay items here
   }
 
   showWishlist(): void {
     this.showingResults = false;
     this.showingWishlist = true;
-    // Fetch wishlist items here
+
+    fetch('http://localhost:3000/api/getItems')
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to retrieve wishlist items');
+        }
+      })
+      .then((data) => {
+        console.log('Wishlist items retrieved:', data);
+        this.wishlistItems = data;
+      })
+      .catch((error) => {
+        console.error('Error retrieving wishlist items:', error);
+      });
   }
 
+
   printItemID(item: any): void {
-    // console.log(item.itemId);
+    this.showDetailButton = true;
     this.selectedItemId = item;
     this.child.callApi(item.itemId);
   }
   handleSearchClickedChange(isSearchClicked: boolean) {
     this.isSearchClicked = isSearchClicked;
-    // Now `isSearchClicked` is updated with the value emitted from `ItemDetailComponent`
+  }
+
+  handleButtonClick(item: any): void {
+    console.log(item);
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    const requestOptions: RequestInit = {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(item),
+    };
+    fetch('http://localhost:3000/api/saveItem', requestOptions)
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        } else {
+          throw new Error('Failed to save item');
+        }
+      })
+      .then((data) => {
+        console.log('Item saved to MongoDB:', data);
+      })
+      .catch((error) => {
+        console.error('Error saving item:', error);
+      });
+  }
+  removeItem(item: any): void {
+    const itemId = item._id;
+    fetch(`http://localhost:3000/api/removeItem/${itemId}`, {
+      method: 'DELETE',
+    })
+      .then((response) => {
+        if (response.ok) {
+          console.log('Item removed from MongoDB');
+          this.showWishlist();
+        } else {
+          throw new Error('Failed to remove item');
+        }
+      })
+      .catch((error) => {
+        console.error('Error removing item:', error);
+      });
+  }
+  reset() {
+    this.isSearchClicked = false;
+    this.wishlistItems = false;
+  }
+  handleDetailButtonClick() {
+    this.showAnotherButton = false;
+    this.showingResults = false;
+    this.child.itemDetailsBool = true;
   }
 }

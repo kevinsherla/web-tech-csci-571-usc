@@ -1,21 +1,98 @@
-<div class="button-container text-center">
-    <button (click)="showResults()" [ngClass]="{'active': showingResults, 'inactive': !showingResults}">Results</button>
-    <button (click)="showWishlist()"
-        [ngClass]="{'active': showingWishlist, 'inactive': !showingWishlist}">Wishlist</button>
-</div>
-
-<div class="loading-bar-container" *ngIf="loading">
-    <div class="loading-bar"></div>
-</div>
-
-<div *ngIf="isSearchClicked">
-    <div *ngIf="noRecords" class="no-records">
-        No Records.
+<div class="container">
+    <div class="button-container text-center">
+        <button (click)="showResults()"
+            [ngClass]="{'active': showingResults, 'inactive': !showingResults}">Results</button>
+        <button (click)="showWishlist()"
+            [ngClass]="{'active': showingWishlist, 'inactive': !showingWishlist}">Wishlist</button>
     </div>
-    <div *ngIf="!noRecords">
-        <!-- Your existing template for displaying records -->
-        <div *ngIf="showingResults">
-            <div class="container mt-5" *ngIf="isSearchClicked">
+
+    <div class="loading-bar-container" *ngIf="loading">
+        <div class="loading-bar"></div>
+    </div>
+
+    <div *ngIf="isSearchClicked">
+        <div *ngIf="noRecords" class="no-records alert alert-warning lol" role="alert">
+            No Records.
+        </div>
+        <div *ngIf="!noRecords">
+            <div class="text-right lol">
+                <button class="btn btn-primary ml-auto btn-secondary btn-custom-enabled" [disabled]="!showDetailButton"
+                    *ngIf="showAnotherButton" (click)="handleDetailButtonClick()">
+                    Detail &gt;
+                </button>
+            </div>
+
+
+            <div *ngIf="showingResults">
+                <div class="container mt-5" *ngIf="isSearchClicked">
+                    <div class="row text-white p-2 font-weight-bold odd-row">
+                        <div class="col-1">#</div>
+                        <div class="col-1">Image</div>
+                        <div class="col-4">Title</div>
+                        <div class="col-1">Price</div>
+                        <div class="col-2">Shipping</div>
+                        <div class="col-1">Zip</div>
+                        <div class="col-1 nowrap">Wish List</div>
+                    </div>
+
+                    <div *ngFor="let item of getDisplayedItems(); let i = index"
+                        class="row align-items-center p-3 border-bottom"
+                        [ngClass]="{ 'even-row': i % 2 === 0, 'odd-row': i % 2 !== 0 }">
+                        <div class="col-1">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</div>
+
+                        <div class="col-1">
+                            <a [href]="getFirst(item.galleryURL)" target="_blank">
+                                <img [src]="getFirst(item.galleryURL)" alt="Item Image"
+                                    class="img-fluid rounded product-image">
+                            </a>
+                        </div>
+
+                        <div class="col-4 title-column" (mouseenter)="showTooltip = true"
+                            (mouseleave)="showTooltip = false" (click)="printItemID(item)">
+                            {{ truncateTitle(getFirst(item.title)) }}
+                            <span *ngIf="showTooltip" class="custom-tooltip">{{ getFirst(item.title) }}</span>
+                        </div>
+
+                        <div class="col-1">${{ getFirst(item.sellingStatus[0].currentPrice).__value__ }}</div>
+                        <div class="col-2">{{ getFirst(item.shippingInfo[0].shippingType) }}</div>
+                        <div class="col-1">{{ getFirst(item.postalCode) }}</div>
+                        <div class="col-1">
+                            <button class="btn btn-light border btn-sm"
+                                (click)="handleButtonClick(item); item.buttonState = !item.buttonState">
+                                <span class="material-symbols-outlined" *ngIf="!item.buttonState">
+                                    add_shopping_cart
+                                </span>
+                                <span class="material-symbols-outlined" *ngIf="item.buttonState">
+                                    remove_shopping_cart
+                                </span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pagination mt-3" *ngIf="isSearchClicked">
+                    <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-btn">«
+                        Previous</button>
+                    <div class="pagination-pages">
+                        <span *ngFor="let page of getPageNumbers(); let i = index"
+                            [ngClass]="{'current-page': currentPage === page}" (click)="goToPage(page)"
+                            class="page-number">{{ page
+                            }}</span>
+                    </div>
+                    <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">Next
+                        »</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="showingWishlist">
+        <div *ngIf="wishlistItems.length === 0" class="no-records alert alert-warning lol" role="alert">
+            No Wishlist Items.
+        </div>
+        <div *ngIf="wishlistItems.length > 0">
+            <div class="container mt-5">
                 <div class="row text-white p-2 font-weight-bold odd-row">
                     <div class="col-1">#</div>
                     <div class="col-1">Image</div>
@@ -26,49 +103,37 @@
                     <div class="col-1 nowrap">Wish List</div>
                 </div>
 
-                <div *ngFor="let item of getDisplayedItems(); let i = index"
-                    class="row align-items-center p-3 border-bottom"
+                <div *ngFor="let item of wishlistItems; let i = index" class="row align-items-center p-3 border-bottom"
                     [ngClass]="{ 'even-row': i % 2 === 0, 'odd-row': i % 2 !== 0 }">
-                    <div class="col-1">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</div>
+                    <div class="col-1">{{ i + 1 }}</div>
 
                     <div class="col-1">
-                        <img [src]="getFirst(item.galleryURL)" alt="Item Image" class="img-fluid rounded product-image">
-                    </div>
-                    <div class="col-4 title-column" (mouseenter)="showTooltip = true" (mouseleave)="showTooltip = false"
-                        (click)="printItemID(item)">
-                        {{ truncateTitle(getFirst(item.title)) }}
-                        <span *ngIf="showTooltip" class="custom-tooltip">{{ getFirst(item.title) }}</span>
+                        <a [href]="item.viewItemURL" target="_blank">
+                            <img [src]="item.galleryURL[0]" alt="Item Image" class="img-fluid rounded product-image">
+                        </a>
                     </div>
 
-                    <div class="col-1">${{ getFirst(item.sellingStatus[0].currentPrice).__value__ }}</div>
-                    <div class="col-2">{{ getFirst(item.shippingInfo[0].shippingType) }}</div>
-                    <div class="col-1">{{ getFirst(item.postalCode) }}</div>
+                    <div class="col-4 title-column">
+                        {{ truncateTitle(item.title[0]) }}
+                    </div>
+
+                    <div class="col-1">${{ item.sellingStatus[0].currentPrice[0].__value__ }}</div>
+                    <div class="col-2">{{ item.shippingInfo[0].shippingType[0] }}</div>
+                    <div class="col-1">{{ item.postalCode[0] }}</div>
                     <div class="col-1">
-                        <button class="btn btn-light border btn-sm">
-                            <i class="fa fa-shopping-cart"></i>
+                        <button class="btn btn-light border btn-sm" (click)="removeItem(item)">
+                            <span class="material-symbols-outlined">
+                                remove_shopping_cart
+                            </span>
                         </button>
                     </div>
                 </div>
             </div>
-
-            <div class="pagination mt-3" *ngIf="isSearchClicked">
-                <button (click)="prevPage()" [disabled]="currentPage === 1" class="pagination-btn">« Previous</button>
-                <div class="pagination-pages">
-                    <span *ngFor="let page of getPageNumbers(); let i = index"
-                        [ngClass]="{'current-page': currentPage === page}" (click)="goToPage(page)"
-                        class="page-number">{{ page
-                        }}</span>
-                </div>
-                <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="pagination-btn">Next
-                    »</button>
-            </div>
-
         </div>
     </div>
+
+    <app-item-detail [itemId]="selectedItemId" [isSearchClicked]="isSearchClicked"
+        (searchClickedChange)="handleSearchClickedChange($event)">
+    </app-item-detail>
+
 </div>
-<!-- ebay-items.component.html -->
-<!-- ... other parts of your template ... -->
-<!-- *ngIf="selectedItemId" [itemId]="selectedItemId" -->
-<app-item-detail [itemId]="selectedItemId" [isSearchClicked]="isSearchClicked"
-    (searchClickedChange)="handleSearchClickedChange($event)">
-</app-item-detail>

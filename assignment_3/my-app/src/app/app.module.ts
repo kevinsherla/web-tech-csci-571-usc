@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
 
 
@@ -23,6 +24,7 @@ import { ItemDetailComponent } from './item-detail/item-detail.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    RoundProgressModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

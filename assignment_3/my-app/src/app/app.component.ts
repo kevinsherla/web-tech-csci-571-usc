@@ -6,6 +6,22 @@ import { SharedDataService } from './shared-data.service';
 import { EbayItemsComponent } from './ebay-items/ebay-items.component';
 import { RoundProgressModule } from 'angular-svg-round-progressbar';
 
+interface FormData {
+  keyword: string;
+  category: string;
+  condition: {
+    new: boolean;
+    used: boolean;
+    unspecified: boolean;
+  };
+  shipping: {
+    localPickup: boolean;
+    freeShipping: boolean;
+  };
+  distance: number;
+  zipCode: string;
+}
+
 interface IpInfoResponse {
   ip: string;
   hostname: string;
@@ -16,6 +32,9 @@ interface IpInfoResponse {
   org: string;
   postal: string;
   timezone: string;
+}
+interface BackendParams {
+  [key: string]: any; // 'any' type used here for simplicity; you can replace it with a more specific type if needed.
 }
 
 interface PostalCodeResponse {
@@ -34,6 +53,7 @@ export class AppComponent {
   @ViewChild(EbayItemsComponent, { static: true })
   child: EbayItemsComponent = new EbayItemsComponent();
   title = 'my-app';
+  app_key = "KevinShe-assignme-PRD-c727b8eb0-b55a0d9c";
   fetchCurrentLocationZipCode: boolean = false;
   showDropdown: boolean = false;
   otherLocationSelected: boolean = false;
@@ -63,7 +83,7 @@ export class AppComponent {
       distinctUntilChanged(),
       switchMap(val => {
         if (val && val.length >= 0) {
-          return this.http.get<any>('http://localhost:3000/api/zip-code-suggestions?val=' + val);
+          return this.http.get<any>('https://assignment3-404507.wl.r.appspot.com/api/zip-code-suggestions?val=' + val);
         } else {
           return [];
         }
@@ -94,6 +114,7 @@ export class AppComponent {
     // console.log("2nd", this.child.loading);
   }
 
+
   resetEbayItems() {
     this.child.reset(); // Call the reset method in the child component
   }
@@ -115,10 +136,67 @@ export class AppComponent {
       this.sendFormDataToBackend();
     }
   }
+
+  prepareDataForBackend(formData: FormData): BackendParams {
+    let params: BackendParams = {
+      'OPERATION-NAME': 'findItemsAdvanced',
+      'paginationInput.entriesPerPage': 50,
+      'SERVICE-VERSION': '1.0.0',
+      'SECURITY-APPNAME': this.app_key,
+      'RESPONSE-DATA-FORMAT': 'JSON',
+      'REST-PAYLOAD': '',
+      'keywords': formData.keyword,
+      'buyerPostalCode': formData.zipCode,
+    };
+
+    let filterIndex = 0;
+
+    if (formData.category && formData.category.toLowerCase() !== 'all') {
+      params['categoryId'] = formData.category;
+    }
+
+    params[`itemFilter(${filterIndex}).name`] = 'MaxDistance';
+    params[`itemFilter(${filterIndex}).value`] = formData.distance.toString();
+    filterIndex++;
+
+    // Process conditions
+    let conditionValues: string[] = [];
+    if (formData.condition.new) conditionValues.push('1000');
+    if (formData.condition.used) conditionValues.push('3000');
+    if (conditionValues.length > 0) {
+      params[`itemFilter(${filterIndex}).name`] = 'Condition';
+      conditionValues.forEach((value, index) => {
+        params[`itemFilter(${filterIndex}).value(${index})`] = value;
+      });
+      filterIndex++;
+    }
+
+    // Process shipping
+    if (formData.shipping.freeShipping) {
+      params[`itemFilter(${filterIndex}).name`] = 'FreeShippingOnly';
+      params[`itemFilter(${filterIndex}).value`] = 'true';
+      filterIndex++;
+    }
+    if (formData.shipping.localPickup) {
+      params[`itemFilter(${filterIndex}).name`] = 'LocalPickupOnly';
+      params[`itemFilter(${filterIndex}).value`] = 'true';
+      filterIndex++;
+    }
+
+    // Add more conditions or filters as needed...
+
+    return params; // Return the prepared params
+  }
+
   sendFormDataToBackend() {
-    const backendUrl = 'http://localhost:3000/api/ebay-search';
+    var data = {
+      params: this.formData,
+    }
+
+    const backendUrl = 'http://localhost:3000/api/ebay-search?';
+    const preparedParams = this.prepareDataForBackend(this.formData);
     this.child.loading = true;
-    this.http.post(backendUrl, this.formData).subscribe((response: any) => {
+    this.http.get(backendUrl, { params: preparedParams }).subscribe((response: any) => {
       console.log(response);
       const items = response.findItemsAdvancedResponse[0].searchResult[0].item;
       if (items && Array.isArray(items)) {

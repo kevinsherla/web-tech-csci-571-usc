@@ -105,16 +105,19 @@ app.use(cors({
 
 app.use(bodyParser.json());
 
-app.post('/api/ebay-search', async (req, res) => {
-    let url = generateEbayUrl(req.body);
-    try {
-        const response = await axios.get(url);
-        res.status(200).send(response.data);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('Server Error');
-    }
+app.get('/api/ebay-search', async (req, res) => {
+  let url = generateEbayUrl(req.query);
+  try {
+      const response = await axios.get(url);
+      // console.log(url);
+      res.status(200).send(response.data);
+      // console.log("lol");
+  } catch (error) {
+      console.log("sdfsd",error);
+      res.status(500).send('Server Error');
+  }
 });
+
 
 app.get('/api/getItem', async (req, res) => {
     const client_id = 'KevinShe-assignme-PRD-c727b8eb0-b55a0d9c';
@@ -294,8 +297,8 @@ app.get('/api/getItems', async (req, res) => {
       res.status(500).json({ error: 'Internal server error' });
     }
   });
-
-const PORT = 3000;
+// app.use(express.static("./dist/my-app"))
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
 });

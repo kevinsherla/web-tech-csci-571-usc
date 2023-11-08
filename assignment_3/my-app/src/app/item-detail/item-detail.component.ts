@@ -50,7 +50,7 @@ export class ItemDetailComponent {
   callApi(itemId: number) {
     this.loading = true;
     console.log(itemId);
-    const backendUrl = `http://localhost:3000/api/getItem?itemId=${itemId}`;
+    const backendUrl = `https://assignment3-404507.wl.r.appspot.com/api/getItem?itemId=${itemId}`;
     this.itemDetailsBool = true;
     this.isSearchClicked = !this.isSearchClicked;
     this.searchClickedChange.emit(this.isSearchClicked);
@@ -100,7 +100,7 @@ export class ItemDetailComponent {
       headers: headers,
       body: JSON.stringify(this.itemId),
     };
-    fetch('http://localhost:3000/api/saveItem', requestOptions)
+    fetch('https://assignment3-404507.wl.r.appspot.com/api/saveItem', requestOptions)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -126,7 +126,7 @@ export class ItemDetailComponent {
     this.fetchSimilarProducts(itemTitle);
   }
   fetchSimilarProducts(itemId: number): void {
-    const url = `http://localhost:3000/api/similaritems?itemId=${itemId}`;
+    const url = `https://assignment3-404507.wl.r.appspot.com/api/similaritems?itemId=${itemId}`;
 
     fetch(url)
       .then(response => {
@@ -147,7 +147,7 @@ export class ItemDetailComponent {
   fetchPhotos(title: string) {
     const encodedTitle = encodeURIComponent(title);
 
-    fetch(`http://localhost:3000/api/photos?title=${encodedTitle}`)
+    fetch(`https://assignment3-404507.wl.r.appspot.com/api/photos?title=${encodedTitle}`)
       .then(response => {
         if (!response.ok) {
           throw new Error('Network response was not ok ' + response.statusText);

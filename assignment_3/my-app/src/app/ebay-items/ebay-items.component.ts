@@ -89,7 +89,7 @@ export class EbayItemsComponent {
     this.showingResults = false;
     this.showingWishlist = true;
 
-    fetch('http://localhost:3000/api/getItems')
+    fetch('https://assignment3-404507.wl.r.appspot.com/api/getItems')
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -125,7 +125,7 @@ export class EbayItemsComponent {
       headers: headers,
       body: JSON.stringify(item),
     };
-    fetch('http://localhost:3000/api/saveItem', requestOptions)
+    fetch('https://assignment3-404507.wl.r.appspot.com/api/saveItem', requestOptions)
       .then((response) => {
         if (response.ok) {
           return response.json();
@@ -142,7 +142,7 @@ export class EbayItemsComponent {
   }
   removeItem(item: any): void {
     const itemId = item._id;
-    fetch(`http://localhost:3000/api/removeItem/${itemId}`, {
+    fetch(`https://assignment3-404507.wl.r.appspot.com/api/removeItem/${itemId}`, {
       method: 'DELETE',
     })
       .then((response) => {
@@ -165,5 +165,10 @@ export class EbayItemsComponent {
     this.showAnotherButton = false;
     this.showingResults = false;
     this.child.itemDetailsBool = true;
+  }
+  getTotalPrice(): number {
+    return this.wishlistItems.reduce((acc: number, item: any) => {
+      return acc + parseFloat(item.sellingStatus[0].currentPrice[0].__value__);
+    }, 0);
   }
 }
